@@ -1,0 +1,155 @@
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100 text-center">
+            <h3 class="my-2">Compra de pasajes</h3>
+            <div class="row">
+                <div class="col">
+                    <div class="row mb-3">
+                        <div class="card shadow-2-strong mb-2"
+                            style="border-radius: .5rem; background-image: url('assets/backbus.png'); background-repeat: no-repeat; background-position-x: center; padding: 90px 0; ">
+                            <div class="card-body p-3 pb-5 text-center">
+                                <div class="row" *ngFor="let asiento of longitud; let i = index">
+                                    <div class="col"
+                                        *ngFor="let item of viaje.asientos.slice(i*4,i*4+4); let j = index">
+                                        <app-silla [asiento]="viaje.asientos[i*4+j]" [disabled]="true">
+                                        </app-silla>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="card shadow-2-strong mb-2" style="border-radius: .5rem;">
+                                <div class="card-body p-3 text-center">
+                                    <div class="row">
+                                        <div class="col text-start">
+                                            <div class="row mb-3">
+                                                <label for="inputEmail3" class="col-sm-4 col-form-label">Número</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" disabled value="5253005312019336"
+                                                        class="form-control" id="inputEmail3">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="inputEmail3" class="col-sm-4 col-form-label">Fecha</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" disabled value="03/2022" class="form-control"
+                                                        id="inputEmail3">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="inputEmail3" class="col-sm-4 col-form-label">CVV</label>
+                                                <div class="col-sm-8">
+                                                    <input type="password" disabled value="808" class="form-control"
+                                                        id="inputEmail3">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="inputEmail3" class="col-sm-4 col-form-label">Nombre</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" disabled value="Yampi Erre"
+                                                        class="form-control" id="inputEmail3">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="inputEmail3"
+                                                    class="col-sm-4 col-form-label">Dirección</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" disabled value="Calle falsa 123"
+                                                        class="form-control" id="inputEmail3">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="inputEmail3" class="col-sm-4 col-form-label">Ciudad</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" disabled value="Quito" class="form-control"
+                                                        id="inputEmail3">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="inputEmail3" class="col-sm-4 col-form-label">País</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" disabled value="Ecuador" class="form-control"
+                                                        id="inputEmail3">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card shadow-2-strong mb-2" style="border-radius: .5rem;">
+                                <div class="card-body p-3 text-center">
+                                    <div class="col">
+                                        <div class="col">
+                                            <div class="row mb-3">
+                                                <label for="inputEmail3"
+                                                    class="col-sm-4 col-form-label">Cantidad</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" disabled value="{{seleccionados}}"
+                                                        class="form-control" id="inputEmail3">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="inputEmail3" class="col-sm-4 col-form-label">Precio
+                                                    Unitario</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" disabled value="$ 7.50" class="form-control"
+                                                        id="inputEmail3">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="row h-100">
+                                                <div class="col-sm-12 my-auto text-center">
+                                                    <span class="fw-bold">Total: $ 15.00</span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="card shadow-2-strong mb-2" style="border-radius: .5rem;">
+                                <div class="card-body p-3 text-center">
+                                    <div class="row">
+                                        <div class="col text-start">
+                                            <p class="fw-bold">Nombre de la cooperativa</p>
+                                            <p>Nombre de la cooperativa</p>
+                                            <p>Nombre de la cooperativa</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card shadow-2-strong mb-2" style="border-radius: .5rem;">
+                                <div class="card-body p-3 text-center">
+                                    <div class="col">
+                                        <div class="col">
+                                            <div class="row mb-3">
+                                                <button [routerLink]="['/pagarAsiento']"
+                                                    class="btn button-primary btn-lg btn-block">Confirmar pago</button>
+
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="row h-100">
+                                                <div class="col-sm-12 my-auto text-center">
+                                                    <button [routerLink]="['/pagarAsiento']"
+                                                        class="btn button-cancel btn-lg btn-block">Cancelar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
