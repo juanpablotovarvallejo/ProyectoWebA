@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from .models import Orden_Compra
+from rest_framework import viewsets
+from .serializer import OrdenesCompraSerializer
 
-# Create your views here.
+class OrdenesCompraViewSet(viewsets.ModelViewSet):
+    serializer_class =  OrdenesCompraSerializer
+    queryset = Orden_Compra.objects.all()
+

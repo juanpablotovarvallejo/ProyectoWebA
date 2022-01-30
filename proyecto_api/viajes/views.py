@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from .models import Viaje
+from rest_framework import viewsets
+from .serializer import ViajeSerializer
 
-# Create your views here.
+class ViajesViewSet(viewsets.ModelViewSet):
+    serializer_class =  ViajeSerializer
+    queryset = Viaje.objects.all()

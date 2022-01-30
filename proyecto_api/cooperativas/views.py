@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from .models import Cooperativa
+from rest_framework import viewsets
+from .serializer import CooperativasSerializer
 
-# Create your views here.
+class CooperativasViewSet(viewsets.ModelViewSet):
+    serializer_class =  CooperativasSerializer
+    queryset = Cooperativa.objects.all()
