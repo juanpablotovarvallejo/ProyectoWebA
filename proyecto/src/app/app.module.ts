@@ -14,6 +14,15 @@ import { SillaComponent } from './componentes/silla/silla.component';
 import { RutaPagoAsientosComponent } from './rutas/ruta-pago-asientos/ruta-pago-asientos.component';
 import { CodigoQrComponent } from './componentes/codigo-qr/codigo-qr.component';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalCodigoQrComponent } from './componentes/modal-codigo-qr/modal-codigo-qr.component';
+import { RutaHistorialComprasComponent } from './rutas/ruta-historial-compras/ruta-historial-compras.component';
+import { TableModule } from 'primeng/table';
+import { HttpClientModule } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
+import { RutaPerfilUsuarioComponent } from './rutas/ruta-perfil-usuario/ruta-perfil-usuario.component';
+import { RutaListaViajesComponent } from './rutas/ruta-lista-viajes/ruta-lista-viajes.component';
+import { RutaListaCooperativasComponent } from './rutas/ruta-lista-cooperativas/ruta-lista-cooperativas.component';
 
 @NgModule({
   declarations: [
@@ -27,12 +36,21 @@ import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
     RutaEscogerAsientoComponent,
     SillaComponent,
     RutaPagoAsientosComponent,
-    CodigoQrComponent
+    CodigoQrComponent,
+    ModalCodigoQrComponent,
+    RutaHistorialComprasComponent,
+    RutaPerfilUsuarioComponent,
+    RutaListaViajesComponent,
+    RutaListaCooperativasComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgxQRCodeModule
+    NgxQRCodeModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    TableModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
