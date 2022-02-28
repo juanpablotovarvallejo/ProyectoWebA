@@ -15,10 +15,13 @@ import {
 } from "./rutas/ruta-actualizar-cooperativa/ruta-actualizar-cooperativa.component";
 import {RutaRegistrarViajesComponent} from "./rutas/ruta-registrar-viajes/ruta-registrar-viajes.component";
 import {RutaActualizarViajeComponent} from "./rutas/ruta-actualizar-viaje/ruta-actualizar-viaje.component";
+import { EsAdministradorGuard } from './services/auth/es-administrador.guard';
+import { EstaLogeadoGuard } from './services/auth/esta-logeado.guard';
 
 const routes: Routes = [
   {
     path: 'inicioSesion',
+    canActivate: [EstaLogeadoGuard],
     component: RutaInicioSesionComponent,
   },
   {
@@ -39,6 +42,7 @@ const routes: Routes = [
   },
   {
     path: 'comprarPasajes',
+    canActivate: [EstaLogeadoGuard],
     component: RutaCompraPasajesComponent,
   },
   {
@@ -63,14 +67,17 @@ const routes: Routes = [
   },
   {
     path: 'listarViajes',
+    canActivate: [EsAdministradorGuard],
     component: RutaListaViajesComponent,
   },
   {
     path: 'listarCooperativas',
+    canActivate: [EsAdministradorGuard],
     component: RutaListaCooperativasComponent,
   },
   {
     path: '',
+    canActivate: [EstaLogeadoGuard],
     component: RutaInicioSesionComponent,
   }
 

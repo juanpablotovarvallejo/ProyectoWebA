@@ -27,6 +27,11 @@ import { RutaRegistroCooperativaComponent } from './rutas/ruta-registro-cooperat
 import { RutaActualizarCooperativaComponent } from './rutas/ruta-actualizar-cooperativa/ruta-actualizar-cooperativa.component';
 import { RutaRegistrarViajesComponent } from './rutas/ruta-registrar-viajes/ruta-registrar-viajes.component';
 import { RutaActualizarViajeComponent } from './rutas/ruta-actualizar-viaje/ruta-actualizar-viaje.component';
+import { AuthService } from './services/auth/auth.service';
+import { EstaLogeadoGuard } from './services/auth/esta-logeado.guard';
+import { EsAdministradorGuard } from './services/auth/es-administrador.guard';
+import { EsUsuarioGuard } from './services/auth/es-usuario.guard';
+
 
 @NgModule({
   declarations: [
@@ -60,7 +65,12 @@ import { RutaActualizarViajeComponent } from './rutas/ruta-actualizar-viaje/ruta
     TableModule,
     MatDialogModule,
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    EstaLogeadoGuard,
+    EsAdministradorGuard,
+    EsUsuarioGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
