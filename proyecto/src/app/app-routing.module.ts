@@ -9,11 +9,29 @@ import { RutaListaCooperativasComponent } from './rutas/ruta-lista-cooperativas/
 import { RutaListaViajesComponent } from './rutas/ruta-lista-viajes/ruta-lista-viajes.component';
 import { RutaPagoAsientosComponent } from './rutas/ruta-pago-asientos/ruta-pago-asientos.component';
 import { RutaPerfilUsuarioComponent } from './rutas/ruta-perfil-usuario/ruta-perfil-usuario.component';
+import {RutaRegistroCooperativaComponent} from "./rutas/ruta-registro-cooperativa/ruta-registro-cooperativa.component";
+import {
+  RutaActualizarCooperativaComponent
+} from "./rutas/ruta-actualizar-cooperativa/ruta-actualizar-cooperativa.component";
+import {RutaRegistrarViajesComponent} from "./rutas/ruta-registrar-viajes/ruta-registrar-viajes.component";
+import {RutaActualizarViajeComponent} from "./rutas/ruta-actualizar-viaje/ruta-actualizar-viaje.component";
 
 const routes: Routes = [
   {
     path: 'inicioSesion',
     component: RutaInicioSesionComponent,
+  },
+  {
+    path: 'actualizarCooperativa',
+    component: RutaActualizarCooperativaComponent,
+  },
+  {
+    path: 'registrarViaje',
+    component: RutaRegistrarViajesComponent,
+  },
+  {
+    path: 'actualizarViaje',
+    component: RutaActualizarViajeComponent,
   },
   {
     path: 'crearCuenta',
@@ -36,6 +54,10 @@ const routes: Routes = [
     component: RutaHistorialComprasComponent,
   },
   {
+    path: 'registroCooperativa',
+    component: RutaRegistroCooperativaComponent,
+  },
+  {
     path: 'perfilUsuario',
     component: RutaPerfilUsuarioComponent,
   },
@@ -51,6 +73,7 @@ const routes: Routes = [
     path: '',
     component: RutaInicioSesionComponent,
   }
+
 ];
 
 @NgModule({

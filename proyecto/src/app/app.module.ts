@@ -23,6 +23,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { RutaPerfilUsuarioComponent } from './rutas/ruta-perfil-usuario/ruta-perfil-usuario.component';
 import { RutaListaViajesComponent } from './rutas/ruta-lista-viajes/ruta-lista-viajes.component';
 import { RutaListaCooperativasComponent } from './rutas/ruta-lista-cooperativas/ruta-lista-cooperativas.component';
+import { RutaRegistroCooperativaComponent } from './rutas/ruta-registro-cooperativa/ruta-registro-cooperativa.component';
+import { RutaActualizarCooperativaComponent } from './rutas/ruta-actualizar-cooperativa/ruta-actualizar-cooperativa.component';
+import { RutaRegistrarViajesComponent } from './rutas/ruta-registrar-viajes/ruta-registrar-viajes.component';
+import { RutaActualizarViajeComponent } from './rutas/ruta-actualizar-viaje/ruta-actualizar-viaje.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +45,11 @@ import { RutaListaCooperativasComponent } from './rutas/ruta-lista-cooperativas/
     RutaHistorialComprasComponent,
     RutaPerfilUsuarioComponent,
     RutaListaViajesComponent,
-    RutaListaCooperativasComponent
+    RutaListaCooperativasComponent,
+    RutaRegistroCooperativaComponent,
+    RutaActualizarCooperativaComponent,
+    RutaRegistrarViajesComponent,
+    RutaActualizarViajeComponent
   ],
   imports: [
     BrowserModule,
