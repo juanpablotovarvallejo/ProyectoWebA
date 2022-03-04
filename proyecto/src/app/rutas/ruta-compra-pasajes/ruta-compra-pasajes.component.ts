@@ -27,7 +27,7 @@ export class RutaCompraPasajesComponent implements OnInit {
   ngOnInit(): void {
     //this.usuario = this._authService.usuarioLogeado;
     //obtener viajes
-    this.viajeService.getViajes().subscribe(
+    this.viajeService.mostrarViajes().subscribe(
       (viajes: any) => {
         this.viajes = viajes;
         console.log(this.viajes);
