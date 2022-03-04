@@ -4,7 +4,7 @@ import { ModalCodigoQrComponent } from 'src/app/componentes/modal-codigo-qr/moda
 import { HistorialCompraService } from 'src/app/services/http/historial-compras.service';
 import { HistorialCompraInterface } from 'src/app/services/interfaces/historial-compra.interface';
 import {ViajeInterface} from "../../services/interfaces/viaje.interface";
-import {ViajesService} from "../../services/http/viajes.service";
+import {ViajeService} from "../../services/http/viajes.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Table} from "primeng/table";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
@@ -21,7 +21,7 @@ export class RutaListaViajesComponent implements OnInit {
   dt: Table | undefined;
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly viajeService : ViajesService,
+    private readonly viajeService : ViajeService,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute
   ) { }

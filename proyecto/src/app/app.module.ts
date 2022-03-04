@@ -31,7 +31,7 @@ import { AuthService } from './services/auth/auth.service';
 import { EstaLogeadoGuard } from './services/auth/esta-logeado.guard';
 import { EsAdministradorGuard } from './services/auth/es-administrador.guard';
 import { EsUsuarioGuard } from './services/auth/es-usuario.guard';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { TipoUsuarioGuard } from './services/auth/tipo-usuario.guard';
 import { ViajeService } from './services/http/viajes.service';
 import {ReactiveFormsModule} from "@angular/forms";
@@ -60,16 +60,17 @@ import {ReactiveFormsModule} from "@angular/forms";
     RutaActualizarViajeComponent,
     RutaCompraPasajesComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    NgxQRCodeModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    TableModule,
-    MatDialogModule,
-    FormsModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        NgxQRCodeModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        TableModule,
+        MatDialogModule,
+        FormsModule,
+        ReactiveFormsModule
+    ],
   providers: [
     AuthService,
     ViajeService,
