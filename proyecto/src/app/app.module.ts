@@ -34,7 +34,7 @@ import { EsUsuarioGuard } from './services/auth/es-usuario.guard';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { TipoUsuarioGuard } from './services/auth/tipo-usuario.guard';
 import { ViajeService } from './services/http/viajes.service';
-import {ReactiveFormsModule} from "@angular/forms";
+
 
 
 @NgModule({

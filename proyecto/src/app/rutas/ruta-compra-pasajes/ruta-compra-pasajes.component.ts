@@ -15,7 +15,7 @@ export class RutaCompraPasajesComponent implements OnInit {
 
   ciudadOrigen = '';
   ciudadDestino = '';
-  fechaViaje: Date = new Date();
+  fechaViaje = '';
 
   viajes = []
 
@@ -40,7 +40,7 @@ export class RutaCompraPasajesComponent implements OnInit {
     console.log(this.viajes);
   }
 
-  buscarViajes(ciudadOrigen: string, ciudadDestino: string, fechaViaje: Date) {
+  buscarViajes(ciudadOrigen: string, ciudadDestino: string, fechaViaje: string) {
     return this.viajes.filter(function (viaje: ViajeInterface) {
       return viaje.ciudad_origen.toLowerCase().includes(ciudadOrigen.toLowerCase())
         || viaje.ciudad_destino.toLowerCase().includes(ciudadDestino.toLowerCase())

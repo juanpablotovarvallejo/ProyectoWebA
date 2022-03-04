@@ -40,7 +40,7 @@ export class RutaEscogerAsientoComponent implements OnInit {
   }
 
   getViaje() {
-    this.viajeService.getViaje(this.idViaje).subscribe(
+    this.viajeService.buscarViaje(this.idViaje).subscribe(
       (viaje: any) => {
         this.viaje = viaje;
         console.log(this.viaje);
