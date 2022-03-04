@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ViajeInterface } from 'src/app/services/interfaces/viaje.interface';
 
 @Component({
   selector: 'app-tarjeta-viaje',
@@ -11,5 +12,8 @@ export class TarjetaViajeComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  @Input()
+  viaje!: ViajeInterface;
 
 }

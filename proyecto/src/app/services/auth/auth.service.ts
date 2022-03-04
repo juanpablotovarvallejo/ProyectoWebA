@@ -8,22 +8,31 @@ import { UsuarioInterface } from "../interfaces/usuario.interface";
 export class AuthService {
   estaLogeado = true;
 
-  roles = [
-    'admin',
-    'usuario'
-  ]
+  usuarioLogeado!: UsuarioInterface;
+
 
   isLogin() {
     return this.estaLogeado;
   }
 
-  constructor(private http: HttpClient) { }
+  ngOnInit() {
+    //this.usuarioLogeado = JSON.parse(localStorage.getItem("usuario"));
+  }
+
+  constructor(private http: HttpClient) {
+    const idUsuario = sessionStorage.getItem('idUsuario');
+
+    if (idUsuario) {
+      this.getUsuario(+idUsuario).subscribe(
+        (usuario: UsuarioInterface) => {
+          this.usuarioLogeado = usuario;
+          console.log("usuario service",usuario);
+        }
+      );
+    }
+  }
 
   getUsuarios(): Observable<UsuarioInterface[]> {
-    /*return this.http.get('/showcase/resources/data/cars-small.json')
-        .toPromise()
-        .then(res => res?.data as HistorialCompraInterface[])
-        .then(data => { return data; });*/
     const url = environment.urlAPI + "usuarios/";
     return this.http
       .get(url)
@@ -33,4 +42,32 @@ export class AuthService {
         )
       );
   }
+
+  getUsuario(id: number): Observable<UsuarioInterface> {
+    const url = environment.urlAPI + `usuarios/${id}/`;
+    return this.http
+      .get(url)
+      .pipe(
+        map(
+          (respuesta: Object) => respuesta as UsuarioInterface
+        )
+      );
+  }
+
+  login(cedula: string, password: string): Observable<UsuarioInterface> {
+    const url = environment.urlAPI + `usuarios/?cedula=${cedula}&contrasena=${password}`;
+    return this.http
+      .get(url)
+      .pipe(
+        map(
+          (respuesta: Object) => respuesta as UsuarioInterface
+        )
+      );
+  }
+
+  saveSesion(usuario: UsuarioInterface) {
+    sessionStorage.setItem('usuario', JSON.stringify(usuario));
+  }
 }
+
+

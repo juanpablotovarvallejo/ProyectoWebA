@@ -9,7 +9,7 @@ export class EsUsuarioGuard {
 
     canActivate(route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-            const esUsuario = this._authService.roles.some(permiso => permiso === 'usuario');
+            const esUsuario = this._authService.usuarioLogeado.tipo_Usuario ==='usuario';
         if (!esUsuario) {
             this._router.navigate(['/forbidden']);
         }

@@ -9,7 +9,7 @@ export class EsAdministradorGuard {
 
     canActivate(route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-            const esAdministrador = this._authService.roles.some(permiso => permiso === 'admin');
+            const esAdministrador = this._authService.usuarioLogeado.tipo_Usuario === 'Admin';
         if (!esAdministrador) {
             this._router.navigate(['/forbidden']);
         }

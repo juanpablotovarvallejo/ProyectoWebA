@@ -31,6 +31,9 @@ import { AuthService } from './services/auth/auth.service';
 import { EstaLogeadoGuard } from './services/auth/esta-logeado.guard';
 import { EsAdministradorGuard } from './services/auth/es-administrador.guard';
 import { EsUsuarioGuard } from './services/auth/es-usuario.guard';
+import { FormsModule } from '@angular/forms';
+import { TipoUsuarioGuard } from './services/auth/tipo-usuario.guard';
+import { ViajeService } from './services/http/viajes.service';
 
 
 @NgModule({
@@ -40,7 +43,6 @@ import { EsUsuarioGuard } from './services/auth/es-usuario.guard';
     PiePaginaComponent,
     BarraNavegacionComponent,
     RutaCreacionCuentaComponent,
-    RutaCompraPasajesComponent,
     TarjetaViajeComponent,
     RutaEscogerAsientoComponent,
     SillaComponent,
@@ -54,7 +56,8 @@ import { EsUsuarioGuard } from './services/auth/es-usuario.guard';
     RutaRegistroCooperativaComponent,
     RutaActualizarCooperativaComponent,
     RutaRegistrarViajesComponent,
-    RutaActualizarViajeComponent
+    RutaActualizarViajeComponent,
+    RutaCompraPasajesComponent
   ],
   imports: [
     BrowserModule,
@@ -64,12 +67,15 @@ import { EsUsuarioGuard } from './services/auth/es-usuario.guard';
     BrowserAnimationsModule,
     TableModule,
     MatDialogModule,
+    FormsModule
   ],
   providers: [
     AuthService,
+    ViajeService,
     EstaLogeadoGuard,
     EsAdministradorGuard,
-    EsUsuarioGuard
+    EsUsuarioGuard,
+    TipoUsuarioGuard
   ],
   bootstrap: [AppComponent]
 })

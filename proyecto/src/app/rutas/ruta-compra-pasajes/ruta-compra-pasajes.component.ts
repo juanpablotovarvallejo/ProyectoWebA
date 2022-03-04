@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { UsuarioInterface } from 'src/app/services/interfaces/usuario.interface';
+import { ViajeService } from 'src/app/services/http/viajes.service';
+import { ViajeInterface } from 'src/app/services/interfaces/viaje.interface';
 
 @Component({
   selector: 'app-ruta-compra-pasajes',
@@ -7,9 +11,41 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RutaCompraPasajesComponent implements OnInit {
 
-  constructor() { }
+  usuario!: UsuarioInterface;
+
+  ciudadOrigen = '';
+  ciudadDestino = '';
+  fechaViaje: Date = new Date();
+
+  viajes = []
+
+  constructor(
+    private readonly _authService: AuthService,
+    private readonly viajeService: ViajeService,
+  ) { }
 
   ngOnInit(): void {
+    //this.usuario = this._authService.usuarioLogeado;
+    //obtener viajes
+    this.viajeService.getViajes().subscribe(
+      (viajes: any) => {
+        this.viajes = viajes;
+        console.log(this.viajes);
+      }
+    );
+  }
+
+  onChange(newValue: any) {
+    this.viajes = this.buscarViajes(this.ciudadOrigen, this.ciudadDestino, this.fechaViaje)
+    console.log(this.viajes);
+  }
+
+  buscarViajes(ciudadOrigen: string, ciudadDestino: string, fechaViaje: Date) {
+    return this.viajes.filter(function (viaje: ViajeInterface) {
+      return viaje.ciudad_origen.toLowerCase().includes(ciudadOrigen.toLowerCase())
+        || viaje.ciudad_destino.toLowerCase().includes(ciudadDestino.toLowerCase())
+        || viaje.fecha === fechaViaje;
+    });
   }
 
 }

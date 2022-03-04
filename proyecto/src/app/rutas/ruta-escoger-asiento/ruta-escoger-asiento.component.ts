@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SillaComponent } from 'src/app/componentes/silla/silla.component';
+import { ActivatedRoute } from '@angular/router';
+import { ViajeService } from 'src/app/services/http/viajes.service';
 
 @Component({
   selector: 'app-ruta-escoger-asiento',
@@ -7,8 +8,14 @@ import { SillaComponent } from 'src/app/componentes/silla/silla.component';
   styleUrls: ['./ruta-escoger-asiento.component.css']
 })
 export class RutaEscogerAsientoComponent implements OnInit {
+  idViaje = 0;
 
-  constructor() {
+  //viaje!: ViajeInterface
+
+  constructor(
+    private readonly viajeService: ViajeService,
+    private readonly activatedRoute: ActivatedRoute
+  ) {
     console.log(this.calcularFilas());
     this.longitud = Array(this.calcularFilas()).fill(0);
     this.viaje.asientos.splice(0, this.viaje.asientos.length);
@@ -17,11 +24,34 @@ export class RutaEscogerAsientoComponent implements OnInit {
         { "id": i + 1, "estado": "libre" },
       )
     }
+
+   
+  }
+
+  getId() {
+    const parametrosConsulta$ = this.activatedRoute.queryParams;
+    parametrosConsulta$.subscribe(
+      (queryParams) => {
+        console.log(queryParams);
+        this.idViaje = queryParams['idViaje'];
+        this.getViaje();
+      }
+    );
+  }
+
+  getViaje() {
+    this.viajeService.getViaje(this.idViaje).subscribe(
+      (viaje: any) => {
+        this.viaje = viaje;
+        console.log(this.viaje);
+      }
+    );
   }
 
   seleccionados = 0;
 
   ngOnInit(): void {
+    this.getId();
   }
   columnas = 4;
 
@@ -35,12 +65,13 @@ export class RutaEscogerAsientoComponent implements OnInit {
 
   viaje = {
     "id": "1",
-    "origen": "Aeropuerto Internacional de El Salvador",
-    "destino": "Aeropuerto Internacional de El Salvador",
-    "fecha": "2020-06-01T00:00:00.000Z",
-    "hora": "2020-06-01T00:00:00.000Z",
+    "ciudad_origen": "Quito",
+    "ciudad_destino": "Riobamba",
+    "fecha": "2020-06-01",
+    "hora": "10:30:00",
     "precio": "100",
     "totalAsientos": 36,
+    "cooperativa": "Cooperativa de transporte",
     "asientos": [
       { "id": 1, "estado": "libre" },
       { "id": 2, "estado": "libre" },

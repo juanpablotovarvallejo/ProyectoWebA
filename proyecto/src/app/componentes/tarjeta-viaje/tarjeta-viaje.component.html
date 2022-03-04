@@ -2,14 +2,14 @@
     <div class="card-body p-3 text-center">
         <div class="row">
             <div class="col-sm-6 text-start">
-                <p class="fw-bold">Nombre de la cooperativa</p>
-                <p>Nombre de la cooperativa</p>
-                <p>Nombre de la cooperativa</p>
+                <p class="fw-bold">{{viaje.ciudad_origen}} - {{viaje.ciudad_destino}}</p>
+                <p>{{viaje.coperativa}}</p>
+                <p>{{viaje.fecha}} {{viaje.hora}}</p>
             </div>
             <div class="col-sm-6">
                 <div class="row h-100">
                     <div class="col-sm-12 my-auto text-end">
-                        <button [routerLink]="['/escogerAsiento']" class="btn button-primary btn-lg btn-block">
+                        <button [routerLink]="['/escogerAsiento',viaje.id]" class="btn button-primary btn-lg btn-block">
                             <i class="bi bi-ticket-fill"></i> Comprar</button>
                     </div>
                 </div>

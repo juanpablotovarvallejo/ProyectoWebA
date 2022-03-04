@@ -9,19 +9,19 @@ import { RutaListaCooperativasComponent } from './rutas/ruta-lista-cooperativas/
 import { RutaListaViajesComponent } from './rutas/ruta-lista-viajes/ruta-lista-viajes.component';
 import { RutaPagoAsientosComponent } from './rutas/ruta-pago-asientos/ruta-pago-asientos.component';
 import { RutaPerfilUsuarioComponent } from './rutas/ruta-perfil-usuario/ruta-perfil-usuario.component';
-import {RutaRegistroCooperativaComponent} from "./rutas/ruta-registro-cooperativa/ruta-registro-cooperativa.component";
+import { RutaRegistroCooperativaComponent } from "./rutas/ruta-registro-cooperativa/ruta-registro-cooperativa.component";
 import {
   RutaActualizarCooperativaComponent
 } from "./rutas/ruta-actualizar-cooperativa/ruta-actualizar-cooperativa.component";
-import {RutaRegistrarViajesComponent} from "./rutas/ruta-registrar-viajes/ruta-registrar-viajes.component";
-import {RutaActualizarViajeComponent} from "./rutas/ruta-actualizar-viaje/ruta-actualizar-viaje.component";
+import { RutaRegistrarViajesComponent } from "./rutas/ruta-registrar-viajes/ruta-registrar-viajes.component";
+import { RutaActualizarViajeComponent } from "./rutas/ruta-actualizar-viaje/ruta-actualizar-viaje.component";
 import { EsAdministradorGuard } from './services/auth/es-administrador.guard';
 import { EstaLogeadoGuard } from './services/auth/esta-logeado.guard';
+import { TipoUsuarioGuard } from './services/auth/tipo-usuario.guard';
 
 const routes: Routes = [
   {
     path: 'inicioSesion',
-    canActivate: [EstaLogeadoGuard],
     component: RutaInicioSesionComponent,
   },
   {
@@ -46,7 +46,7 @@ const routes: Routes = [
     component: RutaCompraPasajesComponent,
   },
   {
-    path: 'escogerAsiento',
+    path: 'escogerAsiento/:idViaje',
     component: RutaEscogerAsientoComponent,
   },
   {
@@ -67,7 +67,7 @@ const routes: Routes = [
   },
   {
     path: 'listarViajes',
-    canActivate: [EsAdministradorGuard],
+    canActivate: [EstaLogeadoGuard, EsAdministradorGuard],
     component: RutaListaViajesComponent,
   },
   {
@@ -79,7 +79,18 @@ const routes: Routes = [
     path: '',
     canActivate: [EstaLogeadoGuard],
     component: RutaInicioSesionComponent,
-  }
+  },
+  {
+    path: 'login',
+    canActivate: [EstaLogeadoGuard, TipoUsuarioGuard],
+    component: RutaInicioSesionComponent,
+  },
+  //ruta forbiden
+  {
+    path: 'forbidden',
+    component: RutaRegistroCooperativaComponent,
+  },
+
 
 ];
 
