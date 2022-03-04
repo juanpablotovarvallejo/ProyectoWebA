@@ -1,12 +1,10 @@
-import { CooperativaInterface } from "./cooperativa.interface";
-
 export interface ViajeInterface {
-    id: number;
-    ciudad_destino: string;
-    ciudad_origen: string;
-    fecha: Date;
-    hora: string;
-    total_asientos: number;
-    precio: number;
-    coperativa: CooperativaInterface;
+  id: number;
+  ciudad_origen: string;
+  ciudad_destino: string;
+  fecha: string;
+  hora: string;
+  total_asientos: number;
+  precio: number;
+  cooperativa_id:number;
 }

@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import {ViajeInterface} from "../interfaces/viaje.interface";
 import { HistorialCompraInterface } from '../interfaces/historial-compra.interface';
-import { ViajeInterface } from '../interfaces/viaje.interface';
+import {ViajeCreateInterface} from "../interfaces/viaje-create.interface";
 
 
 
@@ -12,26 +12,46 @@ import { ViajeInterface } from '../interfaces/viaje.interface';
 })
 export class ViajeService {
 
-    constructor(private http: HttpClient) { }
+  constructor(
+    private readonly httpClient: HttpClient
+  ) {
+  }
 
-    getViajes(): Observable<ViajeInterface[]> {
-        const url = environment.urlAPI + "viajes/";
-        return this.http
-            .get(url)
-            .pipe(
-                map(
-                    (respuesta: Object) => respuesta as ViajeInterface[]
-                )
-            );
-    }
-    getViaje(id: number): Observable<ViajeInterface> {
-        const url = environment.urlAPI + `viajes/${id}/`;
-        return this.http
-            .get(url)
-            .pipe(
-                map(
-                    (respuesta: Object) => respuesta as ViajeInterface
-                )
-            );
-    }
+  mostrarViajes(){
+    const url = 'http://127.0.0.1:8000/viajes/';
+    return this.httpClient
+      .get(url, )
+      .pipe(
+        map(
+          (resultadoEnData: Object) => resultadoEnData as ViajeInterface[]
+        )
+      )
+  }
+
+  buscarViaje(idViaje: number) {
+    const url = "http://127.0.0.1:8000/viajes/" + idViaje;
+    return this.httpClient
+      .get(url)
+      .pipe(
+        map(
+          (resultadoEnData: Object) => resultadoEnData as ViajeInterface
+        )
+      )
+  }
+
+  actualizarViajePorId(idViaje: number, datosActualizar: ViajeCreateInterface): Observable<ViajeCreateInterface> {
+    const url = "http://127.0.0.1:8000/viajes/" + idViaje;
+    return this.httpClient.put(url, datosActualizar)
+      .pipe(map((resultadoEnData) => resultadoEnData as ViajeInterface))
+  }
+  insertarViaje(datos: ViajeCreateInterface): Observable<ViajeInterface> {
+    const url = "http://127.0.0.1:8000/viajes/" ;
+    return this.httpClient.post(url, datos)
+      .pipe(map((resultadoEnData) => resultadoEnData as ViajeInterface))
+  }
+  eliminarViaje(idViaje: number): Observable<ViajeInterface> {
+    const url = "http://127.0.0.1:8000/viajes/"+idViaje;
+    return this.httpClient.delete(url)
+      .pipe(map((resultadoEnData) => resultadoEnData as ViajeInterface))
+  }
 }
