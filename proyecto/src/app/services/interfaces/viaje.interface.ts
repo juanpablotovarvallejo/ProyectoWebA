@@ -6,5 +6,5 @@ export interface ViajeInterface {
   hora: string;
   total_asientos: number;
   precio: number;
-  cooperativa_id:number;
+  cooperativa:number;
 }

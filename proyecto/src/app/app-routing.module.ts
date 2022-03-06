@@ -33,7 +33,7 @@ const routes: Routes = [
     component: RutaRegistrarViajesComponent,
   },
   {
-    path: 'actualizarViaje',
+    path: 'actualizarViaje/:idViaje',
     component: RutaActualizarViajeComponent,
   },
   {
