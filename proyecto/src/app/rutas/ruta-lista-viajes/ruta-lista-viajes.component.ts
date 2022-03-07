@@ -24,7 +24,16 @@ export class RutaListaViajesComponent implements OnInit {
     private readonly viajeService : ViajeService,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute
-  ) { }
+  ) {this.formGroup = new FormGroup(
+    {
+      buscar: new FormControl (
+        {
+          value: "",
+          disabled:false
+        }
+      )
+    }
+  ); }
 
 
 
@@ -46,16 +55,7 @@ export class RutaListaViajesComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(
       {
         next:(queryParams)=>{
-          this.formGroup = new FormGroup(
-            {
-              buscar: new FormControl (
-                {
-                  value: queryParams['search'],
-                  disabled:false
-                }
-              )
-            }
-          );
+          this.formGroup.get('buscar')?.setValue(queryParams['search'])
           setTimeout(()=>{
             return this.dt?.filterGlobal(queryParams['search'],'contains')
           },100)

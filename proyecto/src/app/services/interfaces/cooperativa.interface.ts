@@ -1,7 +1,7 @@
 export interface CooperativaInterface {
-    id: number;
+    id?: number;
     nombre_cooperativa: string;
     telefono: string;
-    ciudadMatriz: string;
-    direccionMatriz: string;
+    ciudad_matriz: string;
+    direccion_matriz: string;
 }

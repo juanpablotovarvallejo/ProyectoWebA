@@ -25,7 +25,7 @@ const routes: Routes = [
     component: RutaInicioSesionComponent,
   },
   {
-    path: 'actualizarCooperativa',
+    path: 'actualizarCooperativa/:idCooperativa',
     component: RutaActualizarCooperativaComponent,
   },
   {
@@ -72,7 +72,7 @@ const routes: Routes = [
   },
   {
     path: 'listarCooperativas',
-    canActivate: [EsAdministradorGuard],
+    //canActivate: [EsAdministradorGuard],
     component: RutaListaCooperativasComponent,
   },
   {

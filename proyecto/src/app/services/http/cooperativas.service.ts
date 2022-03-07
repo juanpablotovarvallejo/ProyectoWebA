@@ -30,7 +30,7 @@ export class CooperativasCompraService {
   }
 
   buscarCooperativa(idCooperativa: number) {
-    const url = environment.urlAPI+'cooperativas/' + idCooperativa;
+    const url = environment.urlAPI+'cooperativas/' + idCooperativa +'/';
     return this.httpClient
       .get(url)
       .pipe(
@@ -41,7 +41,7 @@ export class CooperativasCompraService {
   }
 
   actualizarCooperativaPorId(idCooperativa: number, datosActualizar: CooperativaInterface): Observable<CooperativaInterface> {
-    const url = environment.urlAPI+'cooperativas/' + idCooperativa;
+    const url = environment.urlAPI+'cooperativas/' + idCooperativa + '/';
     return this.httpClient.put(url, datosActualizar)
       .pipe(map((resultadoEnData) => resultadoEnData as CooperativaInterface))
   }
@@ -51,7 +51,7 @@ export class CooperativasCompraService {
       .pipe(map((resultadoEnData) => resultadoEnData as CooperativaInterface))
   }
   eliminarCooperativa(idCooperativa: number): Observable<CooperativaInterface> {
-    const url = environment.urlAPI+'cooperativas/'+idCooperativa;
+    const url = environment.urlAPI+'cooperativas/'+idCooperativa+ '/';
     return this.httpClient.delete(url)
       .pipe(map((resultadoEnData) => resultadoEnData as CooperativaInterface))
   }
