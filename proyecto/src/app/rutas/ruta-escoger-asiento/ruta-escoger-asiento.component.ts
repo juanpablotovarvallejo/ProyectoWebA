@@ -23,7 +23,7 @@ export class RutaEscogerAsientoComponent implements OnInit {
     private readonly cooperativaService: CooperativasService,
   ) {
     this.getId();
-    
+
   }
 
   getCooperativa(id: number) {
@@ -53,16 +53,29 @@ export class RutaEscogerAsientoComponent implements OnInit {
     );
   }
 
-  llenarAsientos(){
-    this.longitud = Array(this.calcularFilas()).fill(0);
-    console.log(this.calcularFilas());
-    this.viaje.asientos = []
-    this.viaje.asientos.splice(0, this.viaje.asientos.length);
-    for (let i = 0; i < this.viaje.total_asientos; i++) {
-      this.viaje.asientos.push(
-        { "id": i + 1, "numero": i + 1, "estado": "libre" },
-      )
-    }
+  llenarAsientos() {
+    console.log(this.viaje.id);
+    this.viajeService.obtenerAsientosViaje(this.viaje.id).subscribe(
+      (asientos: any) => {
+        this.longitud = Array(this.calcularFilas()).fill(0);
+        
+        this.viaje.asientos = []
+        this.viaje.asientos.splice(0, this.viaje.asientos.length);
+        for (let i = 0; i < this.viaje.total_asientos; i++) {
+          this.viaje.asientos.push(
+            { "id": i + 1, "numero": i + 1, "estado": "libre" },
+          )
+        }
+        
+        console.log(asientos);
+        asientos.forEach((asiento: { asiento: number; }) => {
+          this.viaje.asientos[asiento.asiento - 1].estado = "ocupado";
+        });
+      }
+    )
+
+
+
   }
 
   seleccionados = 0;
@@ -79,7 +92,7 @@ export class RutaEscogerAsientoComponent implements OnInit {
   longitud = Array(10).fill(0);
 
   viaje = {
-    "id": "1",
+    "id": 1,
     "ciudad_origen": "Quito",
     "ciudad_destino": "Riobamba",
     "fecha": "2020-06-01",

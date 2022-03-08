@@ -31,8 +31,8 @@ export class HistorialCompraService {
             );
     }
 
-    mostrarOrdenesCompra() {
-        const url = environment.urlAPI + 'ordenes_compra/';
+    mostrarOrdenesCompra(idUsuario: number): Observable<OrdenCompraInterface[]> {
+        const url = environment.urlAPI + 'ordenes_compra/?idUsuario=' + idUsuario;
         return this.httpClient
             .get(url,)
             .pipe(

@@ -4,6 +4,7 @@ import { HistorialCompraInterface } from 'src/app/services/interfaces/historial-
 import { MatDialog } from '@angular/material/dialog';
 import { ModalCodigoQrComponent } from 'src/app/componentes/modal-codigo-qr/modal-codigo-qr.component';
 import { OrdenCompraInterface } from 'src/app/services/interfaces/orden-compra.interface';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-ruta-historial-compras',
@@ -17,11 +18,14 @@ export class RutaHistorialComprasComponent implements OnInit {
   loading: boolean = true;
 
 
-  constructor(private historialService: HistorialCompraService,
-    private readonly dialog: MatDialog) { }
+  constructor(
+    private historialService: HistorialCompraService,
+    private readonly dialog: MatDialog,
+    private readonly authService: AuthService
+  ) { }
 
   ngOnInit() {
-    const historialData$ = this.historialService.mostrarOrdenesCompra()
+    const historialData$ = this.historialService.mostrarOrdenesCompra(this.authService.usuarioLogeado.id);
     historialData$.subscribe(
       (data: OrdenCompraInterface[]) => {
         this.historial = data
@@ -36,7 +40,7 @@ export class RutaHistorialComprasComponent implements OnInit {
       { field: 'fecha_compra', header: 'Fecha' },
     ];
 
-    
+
   }
 
   abrirModal(a: HistorialCompraInterface) {

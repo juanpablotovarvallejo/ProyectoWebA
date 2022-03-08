@@ -69,7 +69,9 @@ export class SillaComponent implements OnInit {
   }
 
   obtenerEtiqueta() {
-    if (this.asiento.id < 10) {
+    if (this.asiento.id < 0) {
+      return "";
+    } else if (this.asiento.id < 10) {
       return "0" + this.asiento.id;
     } else {
       return this.asiento.id;

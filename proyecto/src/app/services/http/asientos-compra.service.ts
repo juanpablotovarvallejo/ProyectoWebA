@@ -40,6 +40,8 @@ export class AsientosCompraService {
       )
   }
 
+  
+
 
   insertarAsientoCompra(datos: AsientoCompraInterface): Observable<AsientoCompraInterface> {
     const url = environment.urlAPI + 'asientos_compra/';
