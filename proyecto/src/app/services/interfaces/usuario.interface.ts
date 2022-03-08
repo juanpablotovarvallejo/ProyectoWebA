@@ -5,6 +5,6 @@ export interface UsuarioInterface {
     cedula: string;
     tipo_Usuario: string;
     correo: string;
-    password: string;
+    constraseña: string;
     foto: string;
 }

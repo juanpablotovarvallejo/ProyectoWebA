@@ -60,6 +60,12 @@ export class AuthService {
       );
   }
 
+  actualizarUsuarioPorId(idUsuario: number, datosActualizar: UsuarioInterface): Observable<UsuarioInterface> {
+    const url = environment.urlAPI + 'usuarios/' + idUsuario + "/";
+    return this.http.put(url, datosActualizar)
+      .pipe(map((resultadoEnData) => resultadoEnData as UsuarioInterface))
+  }
+
   login(cedula: string, password: string): Observable<UsuarioInterface> {
     const url = environment.urlAPI + `usuarios/?cedula=${cedula}&contrasena=${password}`;
     return this.http
@@ -70,6 +76,8 @@ export class AuthService {
         )
       );
   }
+
+
 
   saveSesion(usuario: UsuarioInterface) {
     sessionStorage.setItem('usuario', JSON.stringify(usuario));

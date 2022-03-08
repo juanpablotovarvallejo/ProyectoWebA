@@ -13,36 +13,36 @@
                             <div class="row mb-3">
                                 <label for="nombre" class="col-sm-3 col-form-label text-start">Nombre</label>
                                 <div class="col-sm-9">
-                                    <input [(ngModel)]="usuario.nombre" [disabled]="!isEdit" required type="text"
+                                    <input value="{{usuario.nombre}}" disabled required type="text"
                                         class="form-control" id="nombre" name="nombre">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label for="apellido" class="col-sm-3 col-form-label text-start">Apellido</label>
                                 <div class="col-sm-9">
-                                    <input [(ngModel)]="usuario.apellido" [disabled]="!isEdit" required type="text"
+                                    <input value="{{usuario.apellido}}" disabled required type="text"
                                         class="form-control" id="apellido" name="apellido">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label for="cedula" class="col-sm-3 col-form-label text-start">Cédula</label>
                                 <div class="col-sm-9">
-                                    <input [(ngModel)]="usuario.cedula" [disabled]="!isEdit" required type="text"
+                                    <input value="{{usuario.cedula}}" disabled required type="text"
                                         maxlength="10" minlength="10" class="form-control" id="cedula" name="cedula">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label for="password" class="col-sm-3 col-form-label text-start">Contraseña</label>
                                 <div class="col-sm-9">
-                                    <input [(ngModel)]="usuario.password" [disabled]="!isEdit" required type="password"
-                                        class="form-control" id="password" name="password">
+                                    <input [(ngModel)]="password" [disabled]="!isEdit" required type="password"
+                                        class="form-control" (ngModelChange)="onChangePassword($event)" id="password" name="password">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label for="foto" class="col-sm-3 col-form-label text-start">Foto</label>
                                 <div class="col-sm-9">
-                                    <input [(ngModel)]="usuario.foto" [disabled]="!isEdit" required type="text"
-                                        class="form-control" id="foto" name="foto">
+                                    <input  [(ngModel)]="usuario.foto" [disabled]="!isEdit" required type="text"
+                                        class="form-control" (ngModelChange)="onChangeFoto($event)" id="foto" name="foto">
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -50,7 +50,7 @@
                                     <a [routerLink]="['/inicioSesion']" class="btn button-cancel">Cancelar</a>
                                 </div>
                                 <div class="col-sm-6">
-                                    <button (click)="editar()" class="btn button-primary" type="submit">Editar</button>
+                                    <button (click)="editar()" class="btn button-primary" type="submit">{{isEdit?'Actualizar':'Editar'}}</button>
                                 </div>
                             </div>
                         </div>

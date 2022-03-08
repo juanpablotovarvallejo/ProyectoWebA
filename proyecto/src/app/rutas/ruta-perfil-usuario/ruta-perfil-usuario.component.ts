@@ -10,8 +10,9 @@ import { UsuarioInterface } from 'src/app/services/interfaces/usuario.interface'
 export class RutaPerfilUsuarioComponent implements OnInit {
 
   usuario!: UsuarioInterface
-
   isEdit = false;
+
+  password = '';
 
   constructor(
     private readonly _authService: AuthService,
@@ -20,6 +21,7 @@ export class RutaPerfilUsuarioComponent implements OnInit {
     const user = sessionStorage.getItem("usuario");
     if (user) {
       this.usuario = JSON.parse(user) as UsuarioInterface;
+      this.password = this.usuario.constraseña
       console.log("Usuario ruta perfil usuario", this.usuario);
     }
     //console.log("Usuario barra navegacion",this._authService);
@@ -32,8 +34,26 @@ export class RutaPerfilUsuarioComponent implements OnInit {
   }
 
   editar() {
+    if (!this.isEdit) {
+      this.isEdit = true;
+    } else {
+      this._authService.actualizarUsuarioPorId(this.usuario.id, this.usuario).subscribe(
+        (data: UsuarioInterface) => {
+          this.usuario = data;
+          this.isEdit = false;
+          this._authService.saveSesion(data);
+        }
+      )
+    }
 
-    this.isEdit = true;
+  }
+
+  onChangePassword(val: any) {
+    //this.isEdit = false;
+  }
+
+  onChangeFoto(val: any) {
+    //this.isEdit = false;
   }
 
   //habilitar los inputs
