@@ -3,7 +3,7 @@ import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {Table} from "primeng/table";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CooperativaInterface} from "../../services/interfaces/cooperativa.interface";
-import {CooperativasCompraService} from "../../services/http/cooperativas.service";
+import {CooperativasService} from "../../services/http/cooperativas.service";
 
 @Component({
   selector: 'app-ruta-lista-cooperativas',
@@ -18,7 +18,7 @@ export class RutaListaCooperativasComponent implements OnInit {
   dt: Table | undefined;
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly cooperativaService : CooperativasCompraService,
+    private readonly cooperativaService : CooperativasService,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute
   ) {

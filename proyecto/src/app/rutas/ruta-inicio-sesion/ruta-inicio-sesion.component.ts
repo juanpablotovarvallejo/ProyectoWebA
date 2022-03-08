@@ -15,8 +15,11 @@ export class RutaInicioSesionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    //this._authService.estaLogeado = false;
-
+    console.log("esta logueado: "+this._authService.estaLogeado);
+    if(this._authService.estaLogeado){
+      console.log("usuario logueado: ");
+      this.router.navigate(['/comprarPasajes']);
+    }
   }
 
   @Input()
@@ -30,6 +33,7 @@ export class RutaInicioSesionComponent implements OnInit {
       this._authService.login(this.cedula, this.password).subscribe(
         (usuario: any) => {
           console.log(usuario);
+          this._authService.estaLogeado = true;
           this._authService.saveSesion(usuario[0]);
           this._authService.usuarioLogeado = usuario[0];
           if (usuario[0].tipo_Usuario === 'Admin') {
@@ -44,7 +48,6 @@ export class RutaInicioSesionComponent implements OnInit {
     } else {
       this._authService.estaLogeado = false;
     }
-
   }
 
 }

@@ -18,6 +18,7 @@ import { RutaActualizarViajeComponent } from "./rutas/ruta-actualizar-viaje/ruta
 import { EsAdministradorGuard } from './services/auth/es-administrador.guard';
 import { EstaLogeadoGuard } from './services/auth/esta-logeado.guard';
 import { TipoUsuarioGuard } from './services/auth/tipo-usuario.guard';
+import { AsientosGuard } from './services/auth/asientos.guard';
 
 const routes: Routes = [
   {
@@ -50,7 +51,8 @@ const routes: Routes = [
     component: RutaEscogerAsientoComponent,
   },
   {
-    path: 'pagarAsiento',
+    path: 'pagarAsiento/:idViaje',
+    canActivate: [AsientosGuard],
     component: RutaPagoAsientosComponent,
   },
   {
@@ -77,12 +79,10 @@ const routes: Routes = [
   },
   {
     path: '',
-    canActivate: [EstaLogeadoGuard],
     component: RutaInicioSesionComponent,
   },
   {
     path: 'login',
-    canActivate: [EstaLogeadoGuard, TipoUsuarioGuard],
     component: RutaInicioSesionComponent,
   },
   //ruta forbiden

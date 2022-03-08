@@ -6,8 +6,8 @@ import { UsuarioInterface } from "../interfaces/usuario.interface";
 
 @Injectable()
 export class AuthService {
-  estaLogeado = true;
-
+  estaLogeado = false;
+  esAdministrador = false;
   usuarioLogeado!: UsuarioInterface;
 
 
@@ -16,20 +16,26 @@ export class AuthService {
   }
 
   ngOnInit() {
-    //this.usuarioLogeado = JSON.parse(localStorage.getItem("usuario"));
   }
 
   constructor(private http: HttpClient) {
-    const idUsuario = sessionStorage.getItem('idUsuario');
-
-    if (idUsuario) {
-      this.getUsuario(+idUsuario).subscribe(
-        (usuario: UsuarioInterface) => {
-          this.usuarioLogeado = usuario;
-          console.log("usuario service",usuario);
-        }
-      );
+    const user = sessionStorage.getItem("usuario");
+    if (user) {
+      this.usuarioLogeado = JSON.parse(user) as UsuarioInterface;
+      this.estaLogeado = true;
+      console.log("usuario service", this.usuarioLogeado);
     }
+  }
+
+  isAdmin() {
+    if (this.usuarioLogeado) {
+      if (this.usuarioLogeado.tipo_Usuario == "Admin") {
+        this.esAdministrador = true;
+      } else {
+        this.esAdministrador = false;
+      }
+    }
+    return this.esAdministrador;
   }
 
   getUsuarios(): Observable<UsuarioInterface[]> {
@@ -67,6 +73,10 @@ export class AuthService {
 
   saveSesion(usuario: UsuarioInterface) {
     sessionStorage.setItem('usuario', JSON.stringify(usuario));
+  }
+
+  cerrarSesion() {
+    sessionStorage.removeItem('usuario');
   }
 }
 

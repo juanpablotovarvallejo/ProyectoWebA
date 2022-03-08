@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CooperativasService } from 'src/app/services/http/cooperativas.service';
+import { PagoService } from 'src/app/services/http/pago.service';
 import { ViajeService } from 'src/app/services/http/viajes.service';
+import { CooperativaInterface } from 'src/app/services/interfaces/cooperativa.interface';
 
 @Component({
   selector: 'app-ruta-escoger-asiento',
@@ -9,31 +12,33 @@ import { ViajeService } from 'src/app/services/http/viajes.service';
 })
 export class RutaEscogerAsientoComponent implements OnInit {
   idViaje = 0;
+  nombre_cooperativa = ''
 
   //viaje!: ViajeInterface
 
   constructor(
     private readonly viajeService: ViajeService,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly pagoService: PagoService,
+    private readonly cooperativaService: CooperativasService,
   ) {
-    console.log(this.calcularFilas());
-    this.longitud = Array(this.calcularFilas()).fill(0);
-    this.viaje.asientos.splice(0, this.viaje.asientos.length);
-    for (let i = 0; i < this.viaje.totalAsientos; i++) {
-      this.viaje.asientos.push(
-        { "id": i + 1, "estado": "libre" },
-      )
-    }
+    this.getId();
+    
+  }
 
-   
+  getCooperativa(id: number) {
+    this.cooperativaService.buscarCooperativa(id).subscribe(
+      (cooperativaEncontrada: CooperativaInterface) => {
+        this.nombre_cooperativa = cooperativaEncontrada.nombre_cooperativa;
+      }
+    );
   }
 
   getId() {
-    const parametrosConsulta$ = this.activatedRoute.queryParams;
+    const parametrosConsulta$ = this.activatedRoute.params;
     parametrosConsulta$.subscribe(
-      (queryParams) => {
-        console.log(queryParams);
-        this.idViaje = queryParams['idViaje'];
+      (params) => {
+        this.idViaje = params['idViaje'];
         this.getViaje();
       }
     );
@@ -43,25 +48,35 @@ export class RutaEscogerAsientoComponent implements OnInit {
     this.viajeService.buscarViaje(this.idViaje).subscribe(
       (viaje: any) => {
         this.viaje = viaje;
-        console.log(this.viaje);
+        this.llenarAsientos();
       }
     );
+  }
+
+  llenarAsientos(){
+    this.longitud = Array(this.calcularFilas()).fill(0);
+    console.log(this.calcularFilas());
+    this.viaje.asientos = []
+    this.viaje.asientos.splice(0, this.viaje.asientos.length);
+    for (let i = 0; i < this.viaje.total_asientos; i++) {
+      this.viaje.asientos.push(
+        { "id": i + 1, "numero": i + 1, "estado": "libre" },
+      )
+    }
   }
 
   seleccionados = 0;
 
   ngOnInit(): void {
-    this.getId();
+    this.getCooperativa(this.viaje.cooperativa);
   }
   columnas = 4;
 
   calcularFilas() {
-    return Math.ceil(this.viaje.totalAsientos / this.columnas);
+    return Math.ceil(this.viaje.total_asientos / this.columnas);
   }
 
   longitud = Array(10).fill(0);
-
-
 
   viaje = {
     "id": "1",
@@ -69,30 +84,30 @@ export class RutaEscogerAsientoComponent implements OnInit {
     "ciudad_destino": "Riobamba",
     "fecha": "2020-06-01",
     "hora": "10:30:00",
-    "precio": "100",
-    "totalAsientos": 36,
-    "cooperativa": "Cooperativa de transporte",
+    "precio": 100,
+    "total_asientos": 36,
+    "cooperativa": 1,
     "asientos": [
-      { "id": 1, "estado": "libre" },
-      { "id": 2, "estado": "libre" },
-      { "id": 3, "estado": "libre" },
-      { "id": 4, "estado": "libre" },
-      { "id": 5, "estado": "libre" },
-      { "id": 6, "estado": "libre" },
-      { "id": 7, "estado": "ocupado" },
-      { "id": 8, "estado": "libre" },
-      { "id": 9, "estado": "libre" },
-      { "id": 10, "estado": "libre" },
-      { "id": 11, "estado": "libre" },
-      { "id": 12, "estado": "libre" },
-      { "id": 13, "estado": "libre" },
-      { "id": 14, "estado": "libre" },
-      { "id": 15, "estado": "libre" },
-      { "id": 16, "estado": "libre" },
-      { "id": 17, "estado": "ocupado" },
-      { "id": 18, "estado": "libre" },
-      { "id": 19, "estado": "libre" },
-      { "id": 20, "estado": "libre" },
+      { "id": 1, "numero": 1, "estado": "libre" },
+      { "id": 2, "numero": 1, "estado": "libre" },
+      { "id": 3, "numero": 1, "estado": "libre" },
+      { "id": 4, "numero": 1, "estado": "libre" },
+      { "id": 5, "numero": 1, "estado": "libre" },
+      { "id": 6, "numero": 1, "estado": "libre" },
+      { "id": 7, "numero": 1, "estado": "ocupado" },
+      { "id": 8, "numero": 1, "estado": "libre" },
+      { "id": 9, "numero": 1, "estado": "libre" },
+      { "id": 10, "numero": 1, "estado": "libre" },
+      { "id": 11, "numero": 1, "estado": "libre" },
+      { "id": 12, "numero": 1, "estado": "libre" },
+      { "id": 13, "numero": 1, "estado": "libre" },
+      { "id": 14, "numero": 1, "estado": "libre" },
+      { "id": 15, "numero": 1, "estado": "libre" },
+      { "id": 16, "numero": 1, "estado": "libre" },
+      { "id": 17, "numero": 1, "estado": "ocupado" },
+      { "id": 18, "numero": 1, "estado": "libre" },
+      { "id": 19, "numero": 1, "estado": "libre" },
+      { "id": 20, "numero": 1, "estado": "libre" },
     ]
   }
 

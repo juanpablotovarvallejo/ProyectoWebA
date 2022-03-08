@@ -3,6 +3,7 @@ import { HistorialCompraService } from 'src/app/services/http/historial-compras.
 import { HistorialCompraInterface } from 'src/app/services/interfaces/historial-compra.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalCodigoQrComponent } from 'src/app/componentes/modal-codigo-qr/modal-codigo-qr.component';
+import { OrdenCompraInterface } from 'src/app/services/interfaces/orden-compra.interface';
 
 @Component({
   selector: 'app-ruta-historial-compras',
@@ -11,7 +12,7 @@ import { ModalCodigoQrComponent } from 'src/app/componentes/modal-codigo-qr/moda
 })
 export class RutaHistorialComprasComponent implements OnInit {
 
-  historial: HistorialCompraInterface[] = [];
+  historial: OrdenCompraInterface[] = [];
   cols: any[] = [];
   loading: boolean = true;
 
@@ -20,22 +21,22 @@ export class RutaHistorialComprasComponent implements OnInit {
     private readonly dialog: MatDialog) { }
 
   ngOnInit() {
-    const historialData$ = this.historialService.getCarsSmall()
-
-
+    const historialData$ = this.historialService.mostrarOrdenesCompra()
     historialData$.subscribe(
-      (data: HistorialCompraInterface[]) => {
+      (data: OrdenCompraInterface[]) => {
         this.historial = data
         this.loading = false;
+        console.log(this.groupBy(this.historial, 'viaje'));
       }
     );
 
     this.cols = [
-      { field: 'vin', header: 'Vin' },
-      { field: 'year', header: 'Year' },
-      { field: 'brand', header: 'Brand' },
-      { field: 'color', header: 'Peterca' }
+      { field: 'id', header: 'ID' },
+      { field: 'cantidad_boletos', header: 'Cantidad Boletos' },
+      { field: 'fecha_compra', header: 'Fecha' },
     ];
+
+    
   }
 
   abrirModal(a: HistorialCompraInterface) {
@@ -52,6 +53,12 @@ export class RutaHistorialComprasComponent implements OnInit {
       }
     );
   }
+  groupBy(xs: any[], key: string) {
+    return xs.reduce(function (rv, x) {
+      console.log(x);
+      (rv[x[key]] = rv[x[key]] || []).push(x);
+      return rv;
+    }, {});
+  };
 
-  
 }

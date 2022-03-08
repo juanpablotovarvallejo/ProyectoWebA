@@ -1,4 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { PagoService } from 'src/app/services/http/pago.service';
+import { ViajeService } from 'src/app/services/http/viajes.service';
+import { luhnValidator } from 'src/app/validators/luhnValidator';
+import { getValidationConfigFromCardNo } from 'src/app/helpers/card.helper';
+import { PaymentInputValidators } from 'ngx-payment-inputs';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { HistorialCompraService } from 'src/app/services/http/historial-compras.service';
+import { OrdenCompraInterface } from 'src/app/services/interfaces/orden-compra.interface';
+import { AsientosCompraService } from 'src/app/services/http/asientos-compra.service';
+import { AsientoCompraInterface } from 'src/app/services/interfaces/asiento-compra.interface';
+import { CooperativaInterface } from 'src/app/services/interfaces/cooperativa.interface';
+import { CooperativasService } from 'src/app/services/http/cooperativas.service';
+
 
 @Component({
   selector: 'app-ruta-pago-asientos',
@@ -6,67 +21,211 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ruta-pago-asientos.component.css']
 })
 export class RutaPagoAsientosComponent implements OnInit {
+  idViaje = 0;
+  valorAPagar = 0;
+  form: any;
+  withoutMaterialForm?: FormGroup;
+  formGroup?: FormGroup;
+  seleccionados = this.pagoService.asientos.length;
+  cardNumberGroup?: FormGroup;
+  columnas = 4;
+  nombre_cooperativa = "";
 
-  constructor() {
-    console.log(this.calcularFilas());
-    this.longitud = Array(this.calcularFilas()).fill(0);
-    this.viaje.asientos.splice(0, this.viaje.asientos.length);
-    for (let i = 0; i < this.viaje.totalAsientos; i++) {
-      if (i == 2 || i == 3) {
-        this.viaje.asientos.push(
-          { "id": i + 1, "estado": "seleccionado" },
-        )
-      } else {
-        this.viaje.asientos.push(
-          { "id": i + 1, "estado": "libre" },
-        )
-      }
-    }
+  constructor(
+    private readonly viajeService: ViajeService,
+    private readonly pagoService: PagoService,
+    private readonly activatedRoute: ActivatedRoute,
+    private fb: FormBuilder,
+    private readonly authService: AuthService,
+    private readonly historialCompraService: HistorialCompraService,
+    private readonly asientosCompraService: AsientosCompraService,
+    private readonly cooperativaService: CooperativasService,
+  ) {
+    this.getId();
   }
-
-  seleccionados = 2;
 
   ngOnInit(): void {
+    this.getCooperativa(this.viaje.cooperativa);
+    this.cardNumberGroup = new FormGroup({
+      cardNumber: new FormControl('', [
+        Validators.required,
+        Validators.minLength(12),
+        luhnValidator()
+      ]),
+      dateCard: new FormControl('', [
+        Validators.required,
+        dateCardValidator(/^(0\d|1[0-2])\/\d{2}$/)
+      ])
+    })
+
+    this.form = this.fb.group({
+      cardNumber: [null, [PaymentInputValidators.cardNumber()]],
+      cardCvc: [null, [PaymentInputValidators.expiryDate()]],
+      cardValidate: [null, [PaymentInputValidators.CVC()]],
+    });
+    this.calcularValorApagar();
   }
-  columnas = 4;
+
+  getCooperativa(id: number) {
+    this.cooperativaService.buscarCooperativa(id).subscribe(
+      (cooperativaEncontrada: CooperativaInterface) => {
+        this.nombre_cooperativa = cooperativaEncontrada.nombre_cooperativa;
+      }
+    );
+  }
+
+  llenarAsientos() {
+    this.longitud = Array(this.calcularFilas()).fill(0);
+    console.log(this.calcularFilas());
+    this.viaje.asientos = []
+    this.viaje.asientos.splice(0, this.viaje.asientos.length);
+    for (let i = 0; i < this.viaje.total_asientos; i++) {
+      this.viaje.asientos.push(
+        { "id": i + 1, "numero": i + 1, "estado": "libre" },
+      )
+    }
+
+    this.pagoService.asientos.forEach(asiento => {
+      this.viaje.asientos[asiento.numero - 1].estado = "seleccionado";
+    });
+  }
+
+
+
+  /*<CreditCardInput cardNumberInputProps={{ value: cardNumber, onChange:
+    this.handleCardNumberChange }} cardExpiryInputProps={{ value: expiry,
+    onChange: this.handleCardExpiryChange }} cardCVCInputProps={{ value: cvc,
+    onChange: this.handleCardCVCChange }} fieldClassName="input" />*/
+
+
+
+
+
+  confirmarPago() {
+    //this.pagoService.pagar(this.pagoService.asientos, this.idViaje);
+    const cantidad = this.pagoService.asientos.length;
+    const fechaCompra = new Date();
+    const fecha = fechaCompra.getFullYear() + "-" + (fechaCompra.getMonth() + 1) + "-" + fechaCompra.getDate();
+    const usuarioId = this.authService.usuarioLogeado.id;
+    const viajeId = this.idViaje as number;
+    const codigoQR = this.generarCodigoQR(fecha, cantidad);
+
+    let dato = {
+      "cantidad_boletos": cantidad,
+      "fecha_compra": fecha,
+      "usuario": usuarioId,
+      "viaje": viajeId,
+      "codigo_qr": codigoQR
+    } as OrdenCompraInterface
+
+    this.historialCompraService.crearHistorialCompra(dato).subscribe(
+      (data) => {
+        console.log(data);
+        const id = data.id;
+        this.pagoService.asientos.forEach(asiento => {
+          let asientoCompra = {
+            "asiento": asiento.numero,
+            "orden_compra": id
+          } as AsientoCompraInterface
+          this.asientosCompraService.insertarAsientoCompra(asientoCompra).subscribe(
+            (data) => {
+              console.log(data);
+            }
+          );
+        });
+      }
+    )
+
+    console.log(dato);
+  }
+
+  generarCodigoQR(fecha: string, cantidad: number) {
+    const as = this.pagoService.asientos.map(asiento => asiento.numero).join(',');
+    return `${this.authService.usuarioLogeado.cedula} ${this.authService.usuarioLogeado.nombre} ${this.authService.usuarioLogeado.apellido} ${this.viaje.ciudad_origen}-${this.viaje.ciudad_destino} ${fecha} ${this.viaje.hora} ${cantidad}[${as}]`;
+  }
+
 
   calcularFilas() {
-    return Math.ceil(this.viaje.totalAsientos / this.columnas);
+    return Math.ceil(this.viaje.total_asientos / this.columnas);
   }
 
   longitud = Array(10).fill(0);
 
   viaje = {
     "id": "1",
-    "origen": "Aeropuerto Internacional de El Salvador",
-    "destino": "Aeropuerto Internacional de El Salvador",
-    "fecha": "2020-06-01T00:00:00.000Z",
-    "hora": "2020-06-01T00:00:00.000Z",
-    "precio": "100",
-    "totalAsientos": 36,
+    "ciudad_origen": "Quito",
+    "ciudad_destino": "Riobamba",
+    "fecha": "2020-06-01",
+    "hora": "10:30:00",
+    "precio": 100,
+    "total_asientos": 36,
+    "cooperativa": 1,
     "asientos": [
-      { "id": 1, "estado": "libre" },
-      { "id": 2, "estado": "libre" },
-      { "id": 3, "estado": "seleccionado" },
-      { "id": 4, "estado": "seleccionado" },
-      { "id": 5, "estado": "libre" },
-      { "id": 6, "estado": "libre" },
-      { "id": 7, "estado": "ocupado" },
-      { "id": 8, "estado": "libre" },
-      { "id": 9, "estado": "libre" },
-      { "id": 10, "estado": "libre" },
-      { "id": 11, "estado": "libre" },
-      { "id": 12, "estado": "libre" },
-      { "id": 13, "estado": "libre" },
-      { "id": 14, "estado": "libre" },
-      { "id": 15, "estado": "libre" },
-      { "id": 16, "estado": "libre" },
-      { "id": 17, "estado": "ocupado" },
-      { "id": 18, "estado": "libre" },
-      { "id": 19, "estado": "libre" },
-      { "id": 20, "estado": "libre" },
+      { "id": 1, "numero": 1, "estado": "libre" },
+      { "id": 2, "numero": 1, "estado": "libre" },
+      { "id": 3, "numero": 1, "estado": "libre" },
+      { "id": 4, "numero": 1, "estado": "libre" },
+      { "id": 5, "numero": 1, "estado": "libre" },
+      { "id": 6, "numero": 1, "estado": "libre" },
+      { "id": 7, "numero": 1, "estado": "ocupado" },
+      { "id": 8, "numero": 1, "estado": "libre" },
+      { "id": 9, "numero": 1, "estado": "libre" },
+      { "id": 10, "numero": 1, "estado": "libre" },
+      { "id": 11, "numero": 1, "estado": "libre" },
+      { "id": 12, "numero": 1, "estado": "libre" },
+      { "id": 13, "numero": 1, "estado": "libre" },
+      { "id": 14, "numero": 1, "estado": "libre" },
+      { "id": 15, "numero": 1, "estado": "libre" },
+      { "id": 16, "numero": 1, "estado": "libre" },
+      { "id": 17, "numero": 1, "estado": "ocupado" },
+      { "id": 18, "numero": 1, "estado": "libre" },
+      { "id": 19, "numero": 1, "estado": "libre" },
+      { "id": 20, "numero": 1, "estado": "libre" },
     ]
   }
 
 
+  getId() {
+    const parametrosConsulta$ = this.activatedRoute.params;
+    parametrosConsulta$.subscribe(
+      (queryParams) => {
+        this.idViaje = queryParams['idViaje'];
+        this.getViaje();
+      }
+    );
+  }
+
+  getViaje() {
+    this.viajeService.buscarViaje(this.idViaje).subscribe(
+      (viaje: any) => {
+        this.viaje = viaje;
+        console.log(this.viaje);
+        this.llenarAsientos()
+      }
+    );
+  }
+
+  calcularValorApagar() {
+    this.valorAPagar = this.pagoService.asientos.length * this.viaje.precio;
+  }
+
+  getCardNumberControl() {
+    return this.cardNumberGroup && this.cardNumberGroup.get('cardNumber');
+  }
+
+  cardMaskFunction(rawValue: string): Array<RegExp> {
+    const card = getValidationConfigFromCardNo(rawValue);
+    if (card) {
+      return card.mask;
+    }
+    return [/\d/];
+  }
+
+}
+
+export function dateCardValidator(dateRe: RegExp): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const forbidden = dateRe.test(control.value);
+    return forbidden ? { forbiddenName: { value: control.value } } : null;
+  };
 }

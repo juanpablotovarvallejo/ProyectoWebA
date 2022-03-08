@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {CooperativaInterface} from "../../services/interfaces/cooperativa.interface";
-import {CooperativasCompraService} from "../../services/http/cooperativas.service";
+import {CooperativasService} from "../../services/http/cooperativas.service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -15,7 +15,7 @@ export class RutaRegistroCooperativaComponent implements OnInit {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly cooperativaService: CooperativasCompraService,
+    private readonly cooperativaService: CooperativasService,
     private readonly router:Router
   ) {
     this.prepararformulario()

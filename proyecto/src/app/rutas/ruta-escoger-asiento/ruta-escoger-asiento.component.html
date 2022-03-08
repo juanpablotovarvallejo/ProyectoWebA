@@ -8,28 +8,31 @@
                         <div class="card shadow-2-strong mb-2"
                             style="border-radius: .5rem; background-image: url('assets/backbus.png'); background-repeat: no-repeat; background-position-x: center; padding: 90px 0; ">
                             <div class="card-body p-3 pb-5 text-center">
-                                <div class="row" *ngFor="let asiento of longitud; let i = index">
-                                    <div class="col"
-                                        *ngFor="let item of viaje.asientos.slice(i*4,i*4+4); let j = index">
-                                        <app-silla [asiento]="viaje.asientos[i*4+j]" (click)="contarSeleccionados()">
-                                        </app-silla>
+                                <div *ngIf="viaje.asientos">
+                                    <div class="row" *ngFor="let asiento of longitud; let i = index">
+                                        <div class="col"
+                                            *ngFor="let item of viaje.asientos.slice(i*4,i*4+4); let j = index">
+                                            <app-silla [asiento]="viaje.asientos[i*4+j]"
+                                                (click)="contarSeleccionados()">
+                                            </app-silla>
+                                        </div>
+
+                                        <!--<div *ngIf=" i % 4 === 0 " class="row">
+                                            <div class="col text-start">
+                                                <div *ngFor="let item of viaje.asientos.slice(i,i+4); let j=index">
+                                                    <app-silla *ngIf=" j < 2" [id]="item.id" [estado]="item.estado">
+                                                    </app-silla>
+                                                </div>
+                                            </div>
+                                            <div class="col text-end">
+                                                <div *ngFor="let item of viaje.asientos.slice(i,i+4); let j=index">
+                                                    <app-silla *ngIf="j >= 2" [id]="item.id" [estado]="item.estado">
+                                                    </app-silla>
+                                                </div>
+                                            </div>
+                                        </div>-->
+
                                     </div>
-
-                                    <!--<div *ngIf=" i % 4 === 0 " class="row">
-                                        <div class="col text-start">
-                                            <div *ngFor="let item of viaje.asientos.slice(i,i+4); let j=index">
-                                                <app-silla *ngIf=" j < 2" [id]="item.id" [estado]="item.estado">
-                                                </app-silla>
-                                            </div>
-                                        </div>
-                                        <div class="col text-end">
-                                            <div *ngFor="let item of viaje.asientos.slice(i,i+4); let j=index">
-                                                <app-silla *ngIf="j >= 2" [id]="item.id" [estado]="item.estado">
-                                                </app-silla>
-                                            </div>
-                                        </div>
-                                    </div>-->
-
                                 </div>
                             </div>
                         </div>
@@ -41,7 +44,7 @@
                             <div class="row">
                                 <div class="col text-start">
                                     <p class="fw-bold">{{viaje.ciudad_origen}} - {{viaje.ciudad_destino}}</p>
-                                    <p>{{viaje.cooperativa}}</p>
+                                    <p>{{nombre_cooperativa}}</p>
                                     <p>{{viaje.fecha}} - {{viaje.hora}}</p>
                                 </div>
                             </div>
@@ -62,7 +65,8 @@
                                 <div class="col">
                                     <div class="row h-100">
                                         <div class="col-sm-12 my-auto text-center">
-                                            <button [routerLink]="['/pagarAsiento']"
+                                            <button [disabled]="seleccionados<=0"
+                                                [routerLink]="['/pagarAsiento',viaje.id]"
                                                 class="btn button-primary btn-lg btn-block">Pagar</button>
                                         </div>
                                     </div>

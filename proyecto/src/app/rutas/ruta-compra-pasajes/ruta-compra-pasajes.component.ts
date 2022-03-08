@@ -12,11 +12,9 @@ import { ViajeInterface } from 'src/app/services/interfaces/viaje.interface';
 export class RutaCompraPasajesComponent implements OnInit {
 
   usuario!: UsuarioInterface;
-
   ciudadOrigen = '';
   ciudadDestino = '';
   fechaViaje = '';
-
   viajes = []
 
   constructor(
@@ -25,27 +23,116 @@ export class RutaCompraPasajesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    //this.usuario = this._authService.usuarioLogeado;
-    //obtener viajes
     this.viajeService.mostrarViajes().subscribe(
       (viajes: any) => {
         this.viajes = viajes;
-        console.log(this.viajes);
       }
     );
   }
 
-  onChange(newValue: any) {
-    this.viajes = this.buscarViajes(this.ciudadOrigen, this.ciudadDestino, this.fechaViaje)
-    console.log(this.viajes);
+  onChangeOrigen(newValue: any) {
+    this.viajeService.mostrarViajes().subscribe(
+      (viajes: any) => {
+        this.viajes = viajes;
+        this.viajes = this.buscarViajesPorOrigen(this.ciudadOrigen, this.ciudadDestino, this.fechaViaje)
+      }
+    );
   }
 
-  buscarViajes(ciudadOrigen: string, ciudadDestino: string, fechaViaje: string) {
-    return this.viajes.filter(function (viaje: ViajeInterface) {
-      return viaje.ciudad_origen.toLowerCase().includes(ciudadOrigen.toLowerCase())
-        || viaje.ciudad_destino.toLowerCase().includes(ciudadDestino.toLowerCase())
-        || viaje.fecha === fechaViaje;
-    });
+  onChangeDestino(newValue: any) {
+    this.viajeService.mostrarViajes().subscribe(
+      (viajes: any) => {
+        this.viajes = viajes;
+        this.viajes = this.buscarViajesPorDestino(this.ciudadOrigen, this.ciudadDestino, this.fechaViaje)
+      }
+    );
   }
 
+  onChangeFecha(newValue: any) {
+    this.viajeService.mostrarViajes().subscribe(
+      (viajes: any) => {
+        this.viajes = viajes;
+        this.viajes = this.buscarViajesPorFecha(this.ciudadOrigen, this.ciudadDestino, this.fechaViaje)
+      }
+    );
+  }
+
+  buscarViajesPorOrigen(ciudadOrigen: string, ciudadDestino: string, fechaViaje: string) {
+    console.log(ciudadOrigen + "-" + ciudadDestino + "-" + fechaViaje);
+    if (ciudadOrigen !== '' && ciudadDestino !== '' && fechaViaje !== '') {
+      return this.viajes.filter(function (viaje: ViajeInterface) {
+        return viaje.ciudad_origen.toLowerCase().includes(ciudadOrigen.toLowerCase())
+          && viaje.ciudad_destino.toLowerCase().includes(ciudadDestino.toLowerCase())
+          && viaje.fecha === fechaViaje;
+      });
+    }
+    else if (ciudadOrigen !== '' && ciudadDestino !== '') {
+      return this.viajes.filter(function (viaje: ViajeInterface) {
+        return viaje.ciudad_origen.toLowerCase().includes(ciudadOrigen.toLowerCase())
+          && viaje.ciudad_destino.toLowerCase().includes(ciudadDestino.toLowerCase())
+      });
+    } else if (fechaViaje !== '' && ciudadOrigen !== '') {
+      return this.viajes.filter(function (viaje: ViajeInterface) {
+        return viaje.ciudad_origen.toLowerCase().includes(ciudadOrigen.toLowerCase())
+          && viaje.fecha.toLowerCase().includes(fechaViaje.toLowerCase())
+      });
+    }
+    else if (ciudadOrigen !== '') {
+      return this.viajes.filter(function (viaje: ViajeInterface) {
+        return viaje.ciudad_origen.toLowerCase().includes(ciudadOrigen.toLowerCase())
+      });
+    }
+    return []
+  }
+
+  buscarViajesPorDestino(ciudadOrigen: string, ciudadDestino: string, fechaViaje: string) {
+    console.log(ciudadOrigen + "-" + ciudadDestino + "-" + fechaViaje);
+    if (ciudadOrigen !== '' && ciudadDestino !== '' && fechaViaje !== '') {
+      return this.viajes.filter(function (viaje: ViajeInterface) {
+        return viaje.ciudad_origen.toLowerCase().includes(ciudadOrigen.toLowerCase())
+          && viaje.ciudad_destino.toLowerCase().includes(ciudadDestino.toLowerCase())
+          && viaje.fecha === fechaViaje;
+      });
+    }
+    else if (ciudadOrigen !== '' && ciudadDestino !== '') {
+      return this.viajes.filter(function (viaje: ViajeInterface) {
+        return viaje.ciudad_origen.toLowerCase().includes(ciudadOrigen.toLowerCase())
+          && viaje.ciudad_destino.toLowerCase().includes(ciudadDestino.toLowerCase())
+      });
+    }
+    else if (ciudadDestino !== '') {
+      return this.viajes.filter(function (viaje: ViajeInterface) {
+        return viaje.ciudad_destino.toLowerCase().includes(ciudadDestino.toLowerCase())
+      });
+    }
+    return []
+  }
+
+  buscarViajesPorFecha(ciudadOrigen: string, ciudadDestino: string, fechaViaje: string) {
+    console.log(ciudadOrigen + "-" + ciudadDestino + "-" + fechaViaje);
+    if (ciudadOrigen !== '' && ciudadDestino !== '' && fechaViaje !== '') {
+      return this.viajes.filter(function (viaje: ViajeInterface) {
+        return viaje.ciudad_origen.toLowerCase().includes(ciudadOrigen.toLowerCase())
+          && viaje.ciudad_destino.toLowerCase().includes(ciudadDestino.toLowerCase())
+          && viaje.fecha === fechaViaje;
+      });
+    }
+    else if (fechaViaje !== '' && ciudadDestino !== '') {
+      return this.viajes.filter(function (viaje: ViajeInterface) {
+        return viaje.fecha.toLowerCase().includes(fechaViaje.toLowerCase())
+          && viaje.ciudad_destino.toLowerCase().includes(ciudadDestino.toLowerCase())
+      });
+    } else if (fechaViaje !== '' && ciudadOrigen !== '') {
+      return this.viajes.filter(function (viaje: ViajeInterface) {
+        return viaje.ciudad_origen.toLowerCase().includes(ciudadOrigen.toLowerCase())
+          && viaje.fecha.toLowerCase().includes(fechaViaje.toLowerCase())
+      });
+    }
+    else if (fechaViaje !== '') {
+      return this.viajes.filter(function (viaje: ViajeInterface) {
+        return viaje.fecha.toLowerCase().includes(fechaViaje.toLowerCase())
+      });
+    }
+    return []
+  }
 }

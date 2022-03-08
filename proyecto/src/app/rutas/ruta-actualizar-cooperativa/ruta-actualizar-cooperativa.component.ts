@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {CooperativasCompraService} from "../../services/http/cooperativas.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import { CooperativasService } from 'src/app/services/http/cooperativas.service';
 import {CooperativaInterface} from "../../services/interfaces/cooperativa.interface";
 import {ViajeInterface} from "../../services/interfaces/viaje.interface";
 
@@ -19,7 +19,7 @@ export class RutaActualizarCooperativaComponent implements OnInit {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly cooperativaService: CooperativasCompraService,
+    private readonly cooperativaService: CooperativasService,
     private readonly router:Router,
     private readonly activatedRoute: ActivatedRoute,
   ) {

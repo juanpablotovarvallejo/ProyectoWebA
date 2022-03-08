@@ -34,8 +34,12 @@ import { EsUsuarioGuard } from './services/auth/es-usuario.guard';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { TipoUsuarioGuard } from './services/auth/tipo-usuario.guard';
 import { ViajeService } from './services/http/viajes.service';
-
-
+import * as cardValidator from 'card-validator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { TextMaskModule } from 'angular2-text-mask';
+import { PaymentInputsModule } from 'ngx-payment-inputs';
+import { AsientosGuard } from './services/auth/asientos.guard';
 
 @NgModule({
   declarations: [
@@ -58,7 +62,8 @@ import { ViajeService } from './services/http/viajes.service';
     RutaActualizarCooperativaComponent,
     RutaRegistrarViajesComponent,
     RutaActualizarViajeComponent,
-    RutaCompraPasajesComponent
+    RutaCompraPasajesComponent,
+    
   ],
     imports: [
         BrowserModule,
@@ -69,7 +74,11 @@ import { ViajeService } from './services/http/viajes.service';
         TableModule,
         MatDialogModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        TextMaskModule,
+        PaymentInputsModule 
     ],
   providers: [
     AuthService,
@@ -77,7 +86,8 @@ import { ViajeService } from './services/http/viajes.service';
     EstaLogeadoGuard,
     EsAdministradorGuard,
     EsUsuarioGuard,
-    TipoUsuarioGuard
+    TipoUsuarioGuard,
+    AsientosGuard
   ],
   bootstrap: [AppComponent]
 })

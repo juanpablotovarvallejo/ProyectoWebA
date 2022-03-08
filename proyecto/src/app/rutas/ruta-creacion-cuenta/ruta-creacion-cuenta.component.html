@@ -3,54 +3,51 @@
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                 <div class="card shadow-2-strong" style="border-radius: .8rem;">
-                    <div class="card-body px-5 text-center">
-                        <div><i class="bi bi-diamond-fill color-primary" style="font-size: 60px"></i></div>
-                        <h3 class="mb-5">Registrar Cuenta</h3>
-                        <div class="row mb-3">
-                            <label for="inputEmail3" class="col-sm-3 col-form-label text-start">Usuario</label>
-                            <div class="col-sm-9">
-                                <input type="email" class="form-control" id="inputEmail3">
+                    <form action="#">
+                        <div class="card-body px-5 text-center">
+                            <div><i class="bi bi-diamond-fill color-primary" style="font-size: 60px"></i></div>
+                            <h3 class="mb-5">Registrar Cuenta</h3>
+                            <div class="row mb-3">
+                                <label for="nombre" class="col-sm-3 col-form-label text-start">Nombre</label>
+                                <div class="col-sm-9">
+                                    <input required type="text" class="form-control" id="nombre" name="nombre">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="apellido" class="col-sm-3 col-form-label text-start">Apellido</label>
+                                <div class="col-sm-9">
+                                    <input required type="text" class="form-control" id="apellido" name="apellido">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="cedula" class="col-sm-3 col-form-label text-start">Cédula</label>
+                                <div class="col-sm-9">
+                                    <input required type="text" maxlength="10" minlength="10" class="form-control"
+                                        id="cedula" name="cedula">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="password" class="col-sm-3 col-form-label text-start">Contraseña</label>
+                                <div class="col-sm-9">
+                                    <input required type="password" class="form-control" id="password" name="password">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="foto" class="col-sm-3 col-form-label text-start">Foto</label>
+                                <div class="col-sm-9">
+                                    <input required type="text" class="form-control" id="foto" name="foto">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-6">
+                                    <a [routerLink]="['/inicioSesion']" class="btn button-cancel">Cancelar</a>
+                                </div>
+                                <div class="col-sm-6">
+                                    <button class="btn button-primary " type="submit">Registrarse</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <label for="inputPassword3" class="col-sm-3 col-form-label text-start">Contraseña</label>
-                            <div class="col-sm-9">
-                                <input type="password" class="form-control" id="inputPassword3">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="inputEmail3" class="col-sm-3 col-form-label text-start">Usuario</label>
-                            <div class="col-sm-9">
-                                <input type="email" class="form-control" id="inputEmail3">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="inputPassword3" class="col-sm-3 col-form-label text-start">Contraseña</label>
-                            <div class="col-sm-9">
-                                <input type="password" class="form-control" id="inputPassword3">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="inputEmail3" class="col-sm-3 col-form-label text-start">Usuario</label>
-                            <div class="col-sm-9">
-                                <input type="email" class="form-control" id="inputEmail3">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="inputPassword3" class="col-sm-3 col-form-label text-start">Contraseña</label>
-                            <div class="col-sm-9">
-                                <input type="password" class="form-control" id="inputPassword3">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-6">
-                                <a [routerLink]="['/inicioSesion']" class="btn button-cancel btn-lg btn-block" >Cancelar</a>
-                            </div>
-                            <div class="col-sm-6">
-                                <button class="btn button-primary btn-lg btn-block" type="submit">Registrarse</button>
-                            </div>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
