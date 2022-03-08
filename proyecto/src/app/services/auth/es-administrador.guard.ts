@@ -9,9 +9,10 @@ export class EsAdministradorGuard {
 
     canActivate(route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-            const esAdministrador = this._authService.usuarioLogeado.tipo_Usuario === 'Admin';
+            console.log(this._authService.usuarioLogeado);
+            const esAdministrador = this._authService.isAdmin();
         if (!esAdministrador) {
-            this._router.navigate(['/forbidden']);
+            this._router.navigate(['']);
         }
         return esAdministrador;
     }

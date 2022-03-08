@@ -10,10 +10,10 @@ export class EstaLogeadoGuard {
 
     canActivate(route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        if (this._authService.usuarioLogeado === null) {
+        if (!this._authService.estaLogeado) {
             //console.log(this._authService.usuarioLogeado);
-            this._router.navigate(['/forbidden']);
+            this._router.navigate(['']);
         }
-        return this._authService.usuarioLogeado !== null
+        return this._authService.estaLogeado
     }
 }

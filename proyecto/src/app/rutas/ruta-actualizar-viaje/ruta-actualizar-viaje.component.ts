@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {CooperativaInterface} from "../../services/interfaces/cooperativa.interface";
 import {ViajeService} from "../../services/http/viajes.service";
-import {CooperativasCompraService} from "../../services/http/cooperativas.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ViajeInterface} from "../../services/interfaces/viaje.interface";
+import { CooperativasService } from 'src/app/services/http/cooperativas.service';
 
 @Component({
   selector: 'app-ruta-actualizar-viaje',
@@ -21,7 +21,7 @@ export class RutaActualizarViajeComponent implements OnInit {
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly viajeService : ViajeService,
-    private readonly cooperativaService: CooperativasCompraService,
+    private readonly cooperativaService: CooperativasService,
     private readonly router:Router,
     private readonly activatedRoute: ActivatedRoute,
   ) {

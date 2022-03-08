@@ -9,21 +9,24 @@ import { UsuarioInterface } from 'src/app/services/interfaces/usuario.interface'
 })
 export class BarraNavegacionComponent implements OnInit {
 
-
   usuario!: UsuarioInterface
 
   constructor(
-    private readonly _authService: AuthService,
+     readonly _authService: AuthService,
   ) {
-
-    const user = sessionStorage.getItem("usuario");
-    if (user) {
-      this.usuario = JSON.parse(user) as UsuarioInterface;
+    console.log("esta logueado en barra navegacion: "+this._authService.usuarioLogeado);
+    if (this._authService.estaLogeado) {
+      const user = sessionStorage.getItem("usuario");
+      if (user) {
+        this.usuario = JSON.parse(user) as UsuarioInterface;
+        this._authService.estaLogeado = true;
+      }
     }
-    //console.log("Usuario barra navegacion",this._authService);
-    //this.usuario = this._authService.usuarioLogeado;
-    // console.log("Usuario barra navegacion",this._authService.usuarioLogeado.apellido);
+  }
 
+  cerrarSesion() {
+    this._authService.cerrarSesion();
+    this._authService.estaLogeado = false;
   }
 
   ngOnInit(): void {

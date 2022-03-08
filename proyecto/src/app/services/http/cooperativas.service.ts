@@ -11,7 +11,7 @@ import {ViajeCreateInterface} from "../interfaces/viaje-create.interface";
 @Injectable({
     providedIn: 'any'
 })
-export class CooperativasCompraService {
+export class CooperativasService {
 
   constructor(
     private readonly httpClient: HttpClient
