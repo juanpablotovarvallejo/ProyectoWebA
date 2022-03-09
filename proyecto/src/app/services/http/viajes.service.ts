@@ -30,6 +30,43 @@ export class ViajeService {
       )
   }
 
+  obtenerFechaHora() {
+    let fecha = new Date();
+    let dia: number | string = fecha.getDate();
+    let mes: number | string = fecha.getMonth() + 1;
+    let anio = fecha.getFullYear();
+    let hora: number | string = fecha.getHours();
+    let minutos: number | string = fecha.getMinutes();
+    let segundos: number | string = fecha.getSeconds();
+    if (dia < 10) {
+      dia = '0' + dia;
+    }
+    if (mes < 10) {
+      mes = '0' + mes;
+    }
+    if (hora < 10) {
+      hora = '0' + hora;
+    }
+    if (minutos < 10) {
+      minutos = '0' + minutos;
+    }
+    if (segundos < 10) {
+      segundos = '0' + segundos;
+    }
+    return '?fecha=' + anio + '-' + mes + '-' + dia + '&hora=' + hora + ':' + minutos + ':' + segundos;
+  }
+
+  mostrarViajesVigentes() {
+    const url = environment.urlAPI + 'viajes/' + this.obtenerFechaHora();
+    return this.httpClient
+      .get(url,)
+      .pipe(
+        map(
+          (resultadoEnData: Object) => resultadoEnData as ViajeInterface[]
+        )
+      )
+  }
+
   obtenerAsientosViaje(idViaje: number): Observable<AsientoCompraInterface[]> {
     const url = environment.urlAPI + 'asientos_compra/?idViaje=' + idViaje;
     return this.httpClient.get(url)

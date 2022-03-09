@@ -25,80 +25,49 @@
                             <div class="card shadow-2-strong mb-2" style="border-radius: .5rem;">
                                 <div class="card-body p-3 text-center">
                                     <div class="row">
-
                                         <div *ngIf="cardNumberGroup" class="col text-start">
-                                            <!--<form [formGroup]="form">
-                                                <div>
-                                                  <label for="card-number">Card Number</label>
-                                                  <input id="card-number" formControlName="cardNumber" jstCardNumber ngDefaultControl />
-                                                </div>
-                                              
-                                                <div>
-                                                  <label for="card-date">Card Date</label>
-                                                  <input id="card-date" formControlName="cardValidate" jstCardExpireDate ngDefaultControl />
-                                                </div>
-                                              
-                                                <div>
-                                                  <label for="card-cvv">Card CVV</label>
-                                                  <input id="card-cvv" formControlName="cardCvc" jstCardCvv ngDefaultControl />
-                                                </div>
-                                              </form>-->
                                             <form [formGroup]="cardNumberGroup">
-                                                <input class="form-control" formControlName="cardNumber"
+                                                <input class="form-control mb-3" formControlName="cardNumber"
                                                     [textMask]="{mask: cardMaskFunction, guide: false, showMask: true}"
                                                     placeholder="Card Number">
                                                 <div *ngIf="cardNumberGroup.get('cardNumber')">
                                                     <div class="alert alert-warning" role="alert"
-                                                        *ngIf="cardNumberGroup.get('cardNumber')?.invalid">
-                                                        Número de tarjeta inválido
+                                                        *ngIf="cardNumberGroup.get('cardNumber')?.invalid && cardNumberGroup.get('cardNumber')?.touched">
+                                                        <span *ngIf="cardNumberGroup.get('cardNumber')?.invalid">Número
+                                                            de tarjeta inválido</span>
                                                         <span
                                                             *ngIf="cardNumberGroup.get('cardNumber')?.hasError('required')">Número
                                                             de tarjeta requerido</span>
                                                         <span
                                                             *ngIf="cardNumberGroup.get('cardNumber')?.hasError('minLength')">Mínimo
-                                                            de 3 caracteres</span>
-                                                    </div>
-                                                    <div class="alert alert-success" role="alert"
-                                                        *ngIf="cardNumberGroup.get('cardNumber')?.valid">
-                                                        Tarjeta válida
+                                                            de 12 caracteres</span>
                                                     </div>
                                                 </div>
-                                                <input class="form-control" formControlName="dateCard"
-                                                    [textMask]="{mask: cardMaskFunction, guide: false, showMask: true}"
-                                                    placeholder="Fecha expiración">
+                                                <input class="form-control mb-3" formControlName="dateCard"
+                                                    maxlength="5" minlength="5" placeholder="Fecha expiración">
                                                 <div *ngIf="cardNumberGroup.get('dateCard')">
                                                     <div class="alert alert-warning" role="alert"
-                                                        *ngIf="cardNumberGroup.get('dateCard')?.invalid">
-                                                        Número de tarjeta inválido
+                                                        *ngIf="cardNumberGroup.get('dateCard')?.invalid && cardNumberGroup.get('dateCard')?.touched">
+                                                        <span *ngIf="cardNumberGroup.get('dateCard')?.invalid">Fecha
+                                                            inválida</span>
                                                         <span
-                                                            *ngIf="cardNumberGroup.get('dateCard')?.hasError('required')">Número
-                                                            de tarjeta requerido</span>
-                                                        <span
-                                                            *ngIf="cardNumberGroup.get('dateCard')?.hasError('minLength')">Mínimo
-                                                            de 3 caracteres</span>
-                                                    </div>
-                                                    <div class="alert alert-success" role="alert"
-                                                        *ngIf="cardNumberGroup.get('dateCard')?.valid">
-                                                        Tarjeta válida
+                                                            *ngIf="cardNumberGroup.get('dateCard')?.hasError('required')">Fecha
+                                                            requerida</span>
                                                     </div>
                                                 </div>
-                                                <input class="form-control" formControlName="dateCard"
-                                                    [textMask]="{mask: cardMaskFunction, guide: false, showMask: true}"
-                                                    placeholder="CVC">
-                                                <div *ngIf="cardNumberGroup.get('dateCard')">
+                                                <input class="form-control mb-3" formControlName="cvc" placeholder="CVC"
+                                                    maxlength="3" minlength="3">
+                                                <div *ngIf="cardNumberGroup.get('cvc')">
                                                     <div class="alert alert-warning" role="alert"
-                                                        *ngIf="cardNumberGroup.get('dateCard')?.invalid">
-                                                        Número de tarjeta inválido
+                                                        *ngIf="cardNumberGroup.get('cvc')?.invalid && cardNumberGroup.get('cvc')?.touched">
+                                                        <span *ngIf="cardNumberGroup.get('cvc')?.invalid">Número
+                                                            de CVC inválido</span>
                                                         <span
-                                                            *ngIf="cardNumberGroup.get('dateCard')?.hasError('required')">Número
-                                                            de tarjeta requerido</span>
+                                                            *ngIf="cardNumberGroup.get('cvc')?.hasError('required')">Número
+                                                            de CVC requerido</span>
                                                         <span
-                                                            *ngIf="cardNumberGroup.get('dateCard')?.hasError('minLength')">Mínimo
+                                                            *ngIf="cardNumberGroup.get('cvc')?.hasError('minLength')">Mínimo
                                                             de 3 caracteres</span>
-                                                    </div>
-                                                    <div class="alert alert-success" role="alert"
-                                                        *ngIf="cardNumberGroup.get('dateCard')?.valid">
-                                                        Tarjeta válida
                                                     </div>
                                                 </div>
                                             </form>
@@ -131,7 +100,6 @@
                                             <div class="row h-100">
                                                 <div class="col-sm-12 my-auto text-center">
                                                     <span class="fw-bold">Total: $ {{valorAPagar}}</span>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -163,7 +131,7 @@
                                         <div class="col">
                                             <div class="row h-100">
                                                 <div class="col-sm-12 my-auto text-center">
-                                                    <button [routerLink]="['/pagarAsiento']"
+                                                    <button [routerLink]="['/escogerAsiento',viaje.id]"
                                                         class="btn button-cancel btn-lg btn-block">Cancelar</button>
                                                 </div>
                                             </div>

@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalCodigoQrComponent } from 'src/app/componentes/modal-codigo-qr/modal-codigo-qr.component';
 import { OrdenCompraInterface } from 'src/app/services/interfaces/orden-compra.interface';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { ViajeService } from 'src/app/services/http/viajes.service';
+import { ViajeInterface } from 'src/app/services/interfaces/viaje.interface';
 
 @Component({
   selector: 'app-ruta-historial-compras',
@@ -17,14 +19,27 @@ export class RutaHistorialComprasComponent implements OnInit {
   cols: any[] = [];
   loading: boolean = true;
 
+  viajes: ViajeInterface[] = [];
+
 
   constructor(
     private historialService: HistorialCompraService,
     private readonly dialog: MatDialog,
-    private readonly authService: AuthService
-  ) { }
+    private readonly authService: AuthService,
+    private readonly viajeService: ViajeService
+  ) {
+
+
+  }
 
   ngOnInit() {
+
+    this.viajeService.mostrarViajes().subscribe(
+      (viajes: any) => {
+        this.viajes = viajes;
+      }
+    );
+
     const historialData$ = this.historialService.mostrarOrdenesCompra(this.authService.usuarioLogeado.id);
     historialData$.subscribe(
       (data: OrdenCompraInterface[]) => {
@@ -39,8 +54,6 @@ export class RutaHistorialComprasComponent implements OnInit {
       { field: 'cantidad_boletos', header: 'Cantidad Boletos' },
       { field: 'fecha_compra', header: 'Fecha' },
     ];
-
-
   }
 
   abrirModal(a: HistorialCompraInterface) {
@@ -65,4 +78,8 @@ export class RutaHistorialComprasComponent implements OnInit {
     }, {});
   };
 
+  obtnerNombreViaje(id: number) {
+    const v = this.viajes.find(x => x.id === id);
+    return v?.ciudad_origen + ' - ' + v?.ciudad_destino;
+  }
 }

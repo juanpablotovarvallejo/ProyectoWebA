@@ -20,10 +20,11 @@ export class RutaCompraPasajesComponent implements OnInit {
   constructor(
     private readonly _authService: AuthService,
     private readonly viajeService: ViajeService,
-  ) { }
+  ) { 
+  }
 
   ngOnInit(): void {
-    this.viajeService.mostrarViajes().subscribe(
+    this.viajeService.mostrarViajesVigentes().subscribe(
       (viajes: any) => {
         this.viajes = viajes;
       }
@@ -31,7 +32,7 @@ export class RutaCompraPasajesComponent implements OnInit {
   }
 
   onChangeOrigen(newValue: any) {
-    this.viajeService.mostrarViajes().subscribe(
+    this.viajeService.mostrarViajesVigentes().subscribe(
       (viajes: any) => {
         this.viajes = viajes;
         this.viajes = this.buscarViajesPorOrigen(this.ciudadOrigen, this.ciudadDestino, this.fechaViaje)
@@ -40,7 +41,7 @@ export class RutaCompraPasajesComponent implements OnInit {
   }
 
   onChangeDestino(newValue: any) {
-    this.viajeService.mostrarViajes().subscribe(
+    this.viajeService.mostrarViajesVigentes().subscribe(
       (viajes: any) => {
         this.viajes = viajes;
         this.viajes = this.buscarViajesPorDestino(this.ciudadOrigen, this.ciudadDestino, this.fechaViaje)
@@ -49,7 +50,7 @@ export class RutaCompraPasajesComponent implements OnInit {
   }
 
   onChangeFecha(newValue: any) {
-    this.viajeService.mostrarViajes().subscribe(
+    this.viajeService.mostrarViajesVigentes().subscribe(
       (viajes: any) => {
         this.viajes = viajes;
         this.viajes = this.buscarViajesPorFecha(this.ciudadOrigen, this.ciudadDestino, this.fechaViaje)
@@ -82,7 +83,7 @@ export class RutaCompraPasajesComponent implements OnInit {
         return viaje.ciudad_origen.toLowerCase().includes(ciudadOrigen.toLowerCase())
       });
     }
-    return []
+    return this.viajes
   }
 
   buscarViajesPorDestino(ciudadOrigen: string, ciudadDestino: string, fechaViaje: string) {
@@ -135,4 +136,6 @@ export class RutaCompraPasajesComponent implements OnInit {
     }
     return []
   }
+
+  
 }

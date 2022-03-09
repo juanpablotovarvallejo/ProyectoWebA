@@ -74,7 +74,12 @@
                                 </div>
                                 <div class="col">
                                     <div class="row h-100">
-                                        <div class="col-sm-12 my-auto text-center">
+
+                                        <div class="col-sm-6 my-auto text-center">
+                                            <button [routerLink]="['/comprarPasajes']"
+                                                class="btn button-cancel btn-lg btn-block">Cancelar</button>
+                                        </div>
+                                        <div class="col-sm-6 my-auto text-center">
                                             <button [disabled]="seleccionados<=0"
                                                 [routerLink]="['/pagarAsiento',viaje.id]"
                                                 class="btn button-primary btn-lg btn-block">Pagar</button>

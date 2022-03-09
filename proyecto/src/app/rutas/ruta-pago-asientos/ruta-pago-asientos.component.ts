@@ -54,16 +54,18 @@ export class RutaPagoAsientosComponent implements OnInit {
       ]),
       dateCard: new FormControl('', [
         Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(5),
         dateCardValidator(/^(0\d|1[0-2])\/\d{2}$/)
+      ]),
+      cvc: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(3)
       ])
     })
 
-    this.form = this.fb.group({
-      cardNumber: [null, [PaymentInputValidators.cardNumber()]],
-      cardCvc: [null, [PaymentInputValidators.expiryDate()]],
-      cardValidate: [null, [PaymentInputValidators.CVC()]],
-    });
-    this.calcularValorApagar();
+
   }
 
   getCooperativa(id: number) {
@@ -102,48 +104,48 @@ export class RutaPagoAsientosComponent implements OnInit {
 
 
   confirmarPago() {
-    //this.pagoService.pagar(this.pagoService.asientos, this.idViaje);
-    const cantidad = this.pagoService.asientos.length;
-    const fechaCompra = new Date();
-    const fecha = fechaCompra.getFullYear() + "-" + (fechaCompra.getMonth() + 1) + "-" + fechaCompra.getDate();
-    const usuarioId = this.authService.usuarioLogeado.id;
-    const viajeId = this.idViaje as number;
-    const codigoQR = this.generarCodigoQR(fecha, cantidad);
+    if (this.cardNumberGroup?.valid) {
+      const cantidad = this.pagoService.asientos.length;
+      const fechaCompra = new Date();
+      const fecha = fechaCompra.getFullYear() + "-" + (fechaCompra.getMonth() + 1) + "-" + fechaCompra.getDate();
+      const usuarioId = this.authService.usuarioLogeado.id;
+      const viajeId = this.idViaje as number;
+      const codigoQR = this.generarCodigoQR(fecha, cantidad);
 
-    let dato = {
-      "cantidad_boletos": cantidad,
-      "fecha_compra": fecha,
-      "usuario": usuarioId,
-      "viaje": viajeId,
-      "codigo_qr": codigoQR
-    } as OrdenCompraInterface
+      let dato = {
+        "cantidad_boletos": cantidad,
+        "fecha_compra": fecha,
+        "usuario": usuarioId,
+        "viaje": viajeId,
+        "codigo_qr": codigoQR
+      } as OrdenCompraInterface
 
-    this.historialCompraService.crearHistorialCompra(dato).subscribe(
-      (data) => {
-        console.log(data);
-        const id = data.id;
-        this.pagoService.asientos.forEach(asiento => {
-          let asientoCompra = {
-            "asiento": asiento.numero,
-            "orden_compra": id
-          } as AsientoCompraInterface
-          this.asientosCompraService.insertarAsientoCompra(asientoCompra).subscribe(
-            (data) => {
-              console.log(data);
-            }
-          );
-        });
-      }
-    )
+      this.historialCompraService.crearHistorialCompra(dato).subscribe(
+        (data) => {
+          console.log(data);
+          const id = data.id;
+          this.pagoService.asientos.forEach(asiento => {
+            let asientoCompra = {
+              "asiento": asiento.numero,
+              "orden_compra": id
+            } as AsientoCompraInterface
+            this.asientosCompraService.insertarAsientoCompra(asientoCompra).subscribe(
+              (data) => {
+                console.log(data);
+              }
+            );
+          });
+        }
+      )
 
-    console.log(dato);
+      console.log(dato);
+    }
   }
 
   generarCodigoQR(fecha: string, cantidad: number) {
     const as = this.pagoService.asientos.map(asiento => asiento.numero).join(',');
     return `${this.authService.usuarioLogeado.cedula} ${this.authService.usuarioLogeado.nombre} ${this.authService.usuarioLogeado.apellido} ${this.viaje.ciudad_origen}-${this.viaje.ciudad_destino} ${fecha} ${this.viaje.hora} ${cantidad}[${as}]`;
   }
-
 
   calcularFilas() {
     return Math.ceil(this.viaje.total_asientos / this.columnas);
@@ -199,6 +201,7 @@ export class RutaPagoAsientosComponent implements OnInit {
     this.viajeService.buscarViaje(this.idViaje).subscribe(
       (viaje: any) => {
         this.viaje = viaje;
+        this.calcularValorApagar();
         console.log(this.viaje);
         this.llenarAsientos()
       }
