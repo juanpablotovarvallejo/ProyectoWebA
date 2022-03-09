@@ -7,7 +7,6 @@ class Viaje(models.Model):
     cooperativa = models.ForeignKey(Cooperativa, on_delete=models.CASCADE)
     ciudad_origen = models.CharField(max_length=255)
     ciudad_destino = models.CharField(max_length=255)
-    fecha = models.DateField()
-    hora = models.TimeField()
+    fecha = models.DateTimeField()
     total_asientos = models.IntegerField()
     precio = models.FloatField()
