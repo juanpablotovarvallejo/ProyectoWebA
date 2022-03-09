@@ -8,6 +8,8 @@ import {ViajeService} from "../../services/http/viajes.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Table} from "primeng/table";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {CooperativasService} from "../../services/http/cooperativas.service";
+import {CooperativaInterface} from "../../services/interfaces/cooperativa.interface";
 
 @Component({
   selector: 'app-ruta-lista-viajes',
@@ -17,11 +19,13 @@ import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 export class RutaListaViajesComponent implements OnInit {
   formGroup !: FormGroup
   viajes:ViajeInterface[] = [];
+  cooperativas:CooperativaInterface[] = [];
   @ViewChild('dt1')
   dt: Table | undefined;
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly viajeService : ViajeService,
+    private readonly cooperativaService : CooperativasService,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute
   ) {this.formGroup = new FormGroup(
@@ -43,7 +47,17 @@ export class RutaListaViajesComponent implements OnInit {
       .subscribe({
         next: (datos:ViajeInterface[]) => {
           this.viajes=datos;
-          this.leerConsulta()
+          this.cooperativaService
+            .mostrarCooperativas()
+            .subscribe({
+              next: (datos:CooperativaInterface[]) => {
+                this.cooperativas=datos
+                this.leerConsulta()
+              },
+              error: (error) => {
+                console.error({error});
+              }
+            })
         },
         error: (error) => {
           console.error({error});
@@ -67,6 +81,10 @@ export class RutaListaViajesComponent implements OnInit {
   // mostrarDetalle(id:number){
   //   this.router.navigate(['/generos',id])
   // }
+
+  getCooperativa(id:number){
+    return this.cooperativas.filter(cooperativa => cooperativa.id===id)[0].nombre_cooperativa
+  }
   actualizarViaje(id:number){
     this.router.navigate(['/actualizarViaje',id])
   }

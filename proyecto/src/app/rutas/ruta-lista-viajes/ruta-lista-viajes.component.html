@@ -32,6 +32,7 @@
                 <th>Hora</th>
                 <th>Número de asientos</th>
                 <th>Precio</th>
+                <th>Cooperativa</th>
                 <th>Acciones</th>
               </tr>
             </ng-template>
@@ -44,6 +45,7 @@
                 <td>{{arreglo.hora}}</td>
                 <td>{{arreglo.total_asientos}}</td>
                 <td>{{arreglo.precio}}</td>
+                <td>{{getCooperativa(arreglo.cooperativa)}}</td>
                 <td class="text-center">
                   <button (click)="actualizarViaje(arreglo.id)" class="btn btn-primary"><i class="bi bi-pencil-square"></i> Editar</button>
                 </td>
