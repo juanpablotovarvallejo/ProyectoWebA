@@ -77,6 +77,12 @@ export class AuthService {
       );
   }
 
+  registrarUsuario(usuario: UsuarioInterface): Observable<UsuarioInterface> {
+    const url = environment.urlAPI + "usuarios/";
+    return this.http.post(url, usuario)
+      .pipe(map((resultadoEnData) => resultadoEnData as UsuarioInterface))
+  }
+
 
 
   saveSesion(usuario: UsuarioInterface) {

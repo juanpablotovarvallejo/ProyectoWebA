@@ -37,7 +37,7 @@ export class RutaPerfilUsuarioComponent implements OnInit {
     if (!this.isEdit) {
       this.isEdit = true;
     } else {
-      this._authService.actualizarUsuarioPorId(this.usuario.id, this.usuario).subscribe(
+      this._authService.actualizarUsuarioPorId(this.usuario.id!, this.usuario).subscribe(
         (data: UsuarioInterface) => {
           this.usuario = data;
           this.isEdit = false;

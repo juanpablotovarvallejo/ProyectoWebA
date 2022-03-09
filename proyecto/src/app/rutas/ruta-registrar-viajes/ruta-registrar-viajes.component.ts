@@ -46,8 +46,6 @@ export class RutaRegistrarViajesComponent implements OnInit {
         ),
         fecha: new FormControl({ value: "", disabled: false }, [Validators.required,]
         ),
-        hora: new FormControl({ value: "", disabled: false }, [Validators.required,]
-        ),
         asientos: new FormControl({ value: "", disabled: false }, [Validators.required,]
         ),
         precio: new FormControl({ value: "", disabled: false }, [Validators.required,]
@@ -64,7 +62,6 @@ export class RutaRegistrarViajesComponent implements OnInit {
         ciudad_origen: this.formInsertarViaje?.get('origen')?.value,
         ciudad_destino: this.formInsertarViaje?.get('destino')?.value,
         fecha: this.formInsertarViaje?.get('fecha')?.value,
-        hora: this.formInsertarViaje?.get('hora')?.value,
         total_asientos: this.formInsertarViaje?.get('asientos')?.value,
         precio: this.formInsertarViaje?.get('precio')?.value,
         cooperativa: this.formInsertarViaje?.get('cooperativa')?.value

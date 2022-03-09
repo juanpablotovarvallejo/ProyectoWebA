@@ -16,7 +16,8 @@
               <div *ngIf="formActualizarViaje.get('origen')">
                 <div class="alert alert-warning" role="alert" *ngIf="formActualizarViaje.get('origen')?.invalid &&
                 formActualizarViaje.get('origen')?.touched">
-                  <span *ngIf="formActualizarViaje.get('origen')?.hasError('required')">Ciudad de origen requerida</span>
+                  <span *ngIf="formActualizarViaje.get('origen')?.hasError('required')">Ciudad de origen
+                    requerida</span>
                 </div>
               </div>
               <div class="row mb-3">
@@ -28,31 +29,20 @@
               <div *ngIf="formActualizarViaje.get('destino')">
                 <div class="alert alert-warning" role="alert" *ngIf="formActualizarViaje.get('destino')?.invalid &&
                 formActualizarViaje.get('destino')?.touched">
-                  <span *ngIf="formActualizarViaje.get('destino')?.hasError('required')">Ciudad de destino requerida</span>
+                  <span *ngIf="formActualizarViaje.get('destino')?.hasError('required')">Ciudad de destino
+                    requerida</span>
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputEmail3" class="col-sm-3 col-form-label text-start">Fecha</label>
                 <div class="col-sm-9">
-                  <input type="date" formControlName="fecha" class="form-control" id="inputEmail3">
+                  <input type="datetime-local" formControlName="fecha" class="form-control" id="inputEmail3">
                 </div>
               </div>
               <div *ngIf="formActualizarViaje.get('fecha')">
                 <div class="alert alert-warning" role="alert" *ngIf="formActualizarViaje.get('fecha')?.invalid &&
                 formActualizarViaje.get('fecha')?.touched">
                   <span *ngIf="formActualizarViaje.get('fecha')?.hasError('required')">Fecha requerida</span>
-                </div>
-              </div>
-              <div class="row mb-3">
-                <label for="inputPassword3" class="col-sm-3 col-form-label text-start">Hora</label>
-                <div class="col-sm-9">
-                  <input type="time" formControlName="hora" class="form-control" id="inputPassword3">
-                </div>
-              </div>
-              <div *ngIf="formActualizarViaje.get('hora')">
-                <div class="alert alert-warning" role="alert" *ngIf="formActualizarViaje.get('hora')?.invalid &&
-                formActualizarViaje.get('hora')?.touched">
-                  <span *ngIf="formActualizarViaje.get('hora')?.hasError('required')">Hora requerida</span>
                 </div>
               </div>
               <div class="row mb-3">
@@ -64,7 +54,8 @@
               <div *ngIf="formActualizarViaje.get('asientos')">
                 <div class="alert alert-warning" role="alert" *ngIf="formActualizarViaje.get('asientos')?.invalid &&
                 formActualizarViaje.get('asientos')?.touched">
-                  <span *ngIf="formActualizarViaje.get('asientos')?.hasError('required')">Números de asientos requerido</span>
+                  <span *ngIf="formActualizarViaje.get('asientos')?.hasError('required')">Números de asientos
+                    requerido</span>
                 </div>
               </div>
               <div class="row mb-3">
@@ -92,15 +83,16 @@
               <div *ngIf="formActualizarViaje.get('cooperativa')">
                 <div class="alert alert-warning" role="alert" *ngIf="formActualizarViaje.get('cooperativa')?.invalid &&
                 formActualizarViaje.get('cooperativa')?.touched">
-                  <span *ngIf="formActualizarViaje.get('cooperativa')?.hasError('required')">Cooperativa requerida</span>
+                  <span *ngIf="formActualizarViaje.get('cooperativa')?.hasError('required')">Cooperativa
+                    requerida</span>
                 </div>
               </div>
               <div class="row mb-3">
                 <div class="col-sm-6">
-                  <a [routerLink]="['/listarViajes']" class="btn button-cancel" >Cancelar</a>
+                  <a [routerLink]="['/listarViajes']" class="btn button-cancel">Cancelar</a>
                 </div>
                 <div class="col-sm-6">
-                  <button class="btn button-primary"  type="button" (click)="actualizarViaje()">Actualizar</button>
+                  <button class="btn button-primary" type="button" (click)="actualizarViaje()">Actualizar</button>
                 </div>
               </div>
             </form>

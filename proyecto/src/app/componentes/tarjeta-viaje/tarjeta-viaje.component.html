@@ -4,7 +4,7 @@
             <div class="col-sm-6 text-start">
                 <p class="fw-bold">{{viaje.ciudad_origen}} - {{viaje.ciudad_destino}}</p>
                 <p>{{nombre_cooperativa}}</p>
-                <p>{{viaje.fecha}} {{viaje.hora}}</p>
+                <p>{{viaje.fecha | date :'short'}}</p>
             </div>
             <div class="col-sm-6">
                 <div class="row h-100">
