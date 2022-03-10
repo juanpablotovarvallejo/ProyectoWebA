@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PagoService } from 'src/app/services/http/pago.service';
 import { ViajeService } from 'src/app/services/http/viajes.service';
 import { luhnValidator } from 'src/app/validators/luhnValidator';
 import { getValidationConfigFromCardNo } from 'src/app/helpers/card.helper';
-import { PaymentInputValidators } from 'ngx-payment-inputs';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { HistorialCompraService } from 'src/app/services/http/historial-compras.service';
 import { OrdenCompraInterface } from 'src/app/services/interfaces/orden-compra.interface';
@@ -40,6 +39,7 @@ export class RutaPagoAsientosComponent implements OnInit {
     private readonly historialCompraService: HistorialCompraService,
     private readonly asientosCompraService: AsientosCompraService,
     private readonly cooperativaService: CooperativasService,
+    private readonly router: Router
   ) {
     this.getId();
   }
@@ -92,17 +92,6 @@ export class RutaPagoAsientosComponent implements OnInit {
     });
   }
 
-
-
-  /*<CreditCardInput cardNumberInputProps={{ value: cardNumber, onChange:
-    this.handleCardNumberChange }} cardExpiryInputProps={{ value: expiry,
-    onChange: this.handleCardExpiryChange }} cardCVCInputProps={{ value: cvc,
-    onChange: this.handleCardCVCChange }} fieldClassName="input" />*/
-
-
-
-
-
   confirmarPago() {
     if (this.cardNumberGroup?.valid) {
       const cantidad = this.pagoService.asientos.length;
@@ -132,19 +121,19 @@ export class RutaPagoAsientosComponent implements OnInit {
             this.asientosCompraService.insertarAsientoCompra(asientoCompra).subscribe(
               (data) => {
                 console.log(data);
+                this.router.navigate(['/historial-compras']);
               }
             );
           });
         }
       )
-
       console.log(dato);
     }
   }
 
   generarCodigoQR(fecha: string, cantidad: number) {
     const as = this.pagoService.asientos.map(asiento => asiento.numero).join(',');
-    return `${this.authService.usuarioLogeado.cedula} ${this.authService.usuarioLogeado.nombre} ${this.authService.usuarioLogeado.apellido} ${this.viaje.ciudad_origen}-${this.viaje.ciudad_destino} ${fecha} ${this.viaje.hora} ${cantidad}[${as}]`;
+    return `${this.authService.usuarioLogeado.cedula} ${this.authService.usuarioLogeado.nombre} ${this.authService.usuarioLogeado.apellido} ${this.viaje.ciudad_origen}-${this.viaje.ciudad_destino} ${fecha} ${cantidad}[${as}]`;
   }
 
   calcularFilas() {
